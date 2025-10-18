@@ -38,7 +38,7 @@ const config: HardhatUserConfig = {
       },
     ],
   },
-  defaultNetwork: "localhost",
+  defaultNetwork: "arbitrumSepolia",
   namedAccounts: {
     deployer: {
       // By default, it will take the first Hardhat account as the deployer
@@ -67,8 +67,14 @@ const config: HardhatUserConfig = {
       accounts: [deployerPrivateKey],
     },
     arbitrumSepolia: {
-      url: `https://arb-sepolia.g.alchemy.com/v2/${providerApiKey}`,
+      url: "https://sepolia-rollup.arbitrum.io/rpc",
       accounts: [deployerPrivateKey],
+      verify: {
+        etherscan: {
+          apiUrl: "https://api-sepolia.arbiscan.io",
+          apiKey: process.env.ARBISCAN_API_KEY || "",
+        },
+      },
     },
     optimism: {
       url: `https://opt-mainnet.g.alchemy.com/v2/${providerApiKey}`,

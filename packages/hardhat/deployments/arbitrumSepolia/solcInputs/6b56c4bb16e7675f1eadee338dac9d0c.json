@@ -1,0 +1,36 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/BrandCrusher.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.20;\n\ncontract BrandCrusher {\n    struct GameScore {\n        address player;\n        uint256 score;\n        uint256 timestamp;\n        bool civicVerified;\n        string playerName;\n    }\n    \n    struct PlayerStats {\n        uint256 totalGames;\n        uint256 highScore;\n        uint256 totalScore;\n        bool civicVerified;\n    }\n    \n    // State variables\n    GameScore[] public allScores;\n    mapping(address => PlayerStats) public playerStats;\n    mapping(address => GameScore[]) public playerGames;\n    \n    uint256 public constant CIVIC_BONUS_MULTIPLIER = 150; // 1.5x = 150%\n    uint256 public constant BASE_MULTIPLIER = 100;\n    \n    // Events\n    event ScoreSubmitted(\n        address indexed player,\n        uint256 score,\n        uint256 finalScore,\n        bool civicVerified,\n        uint256 timestamp\n    );\n    \n    event CivicVerificationUpdated(address indexed player, bool verified);\n    \n    // Submit score after game\n    function submitScore(\n        uint256 _score,\n        bool _civicVerified,\n        string memory _playerName\n    ) external returns (uint256 finalScore) {\n        require(_score > 0, \"Score must be positive\");\n        \n        // Calculate final score with Civic bonus\n        if (_civicVerified) {\n            finalScore = (_score * CIVIC_BONUS_MULTIPLIER) / BASE_MULTIPLIER;\n        } else {\n            finalScore = _score;\n        }\n        \n        // Create game record\n        GameScore memory newGame = GameScore({\n            player: msg.sender,\n            score: finalScore,\n            timestamp: block.timestamp,\n            civicVerified: _civicVerified,\n            playerName: _playerName\n        });\n        \n        // Update storage\n        allScores.push(newGame);\n        playerGames[msg.sender].push(newGame);\n        \n        // Update player stats\n        PlayerStats storage stats = playerStats[msg.sender];\n        stats.totalGames++;\n        stats.totalScore += finalScore;\n        stats.civicVerified = _civicVerified;\n        \n        if (finalScore > stats.highScore) {\n            stats.highScore = finalScore;\n        }\n        \n        emit ScoreSubmitted(\n            msg.sender,\n            _score,\n            finalScore,\n            _civicVerified,\n            block.timestamp\n        );\n        \n        return finalScore;\n    }\n    \n    // Get leaderboard (top N scores)\n    function getTopScores(uint256 limit) external view returns (GameScore[] memory) {\n        uint256 length = allScores.length;\n        if (length == 0) {\n            return new GameScore[](0);\n        }\n        \n        uint256 resultSize = length < limit ? length : limit;\n        GameScore[] memory topScores = new GameScore[](resultSize);\n        \n        // Simple sorting (for production use more efficient algorithm)\n        for (uint256 i = 0; i < resultSize; i++) {\n            uint256 maxIndex = 0;\n            uint256 maxScore = 0;\n            \n            for (uint256 j = 0; j < length; j++) {\n                bool alreadyAdded = false;\n                for (uint256 k = 0; k < i; k++) {\n                    if (allScores[j].player == topScores[k].player && \n                        allScores[j].timestamp == topScores[k].timestamp) {\n                        alreadyAdded = true;\n                        break;\n                    }\n                }\n                \n                if (!alreadyAdded && allScores[j].score > maxScore) {\n                    maxScore = allScores[j].score;\n                    maxIndex = j;\n                }\n            }\n            \n            topScores[i] = allScores[maxIndex];\n        }\n        \n        return topScores;\n    }\n    \n    // Get player's game history\n    function getPlayerGames(address player) external view returns (GameScore[] memory) {\n        return playerGames[player];\n    }\n    \n    // Get player stats\n    function getPlayerStats(address player) external view returns (PlayerStats memory) {\n        return playerStats[player];\n    }\n    \n    // Get total games count\n    function getTotalGames() external view returns (uint256) {\n        return allScores.length;\n    }\n    \n    // Update Civic verification status\n    function updateCivicVerification(bool verified) external {\n        playerStats[msg.sender].civicVerified = verified;\n        emit CivicVerificationUpdated(msg.sender, verified);\n    }\n}\n\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

@@ -1,0 +1,580 @@
+{
+  "address": "0x2d4988BeF13A77B2E5d8abaFFABd07a0b970B8B9",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "verified",
+          "type": "bool"
+        }
+      ],
+      "name": "CivicVerificationUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "score",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "finalScore",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "civicVerified",
+          "type": "bool"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "ScoreSubmitted",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "BASE_MULTIPLIER",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "CIVIC_BONUS_MULTIPLIER",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "allScores",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "score",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "civicVerified",
+          "type": "bool"
+        },
+        {
+          "internalType": "string",
+          "name": "playerName",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        }
+      ],
+      "name": "getPlayerGames",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "player",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "score",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "civicVerified",
+              "type": "bool"
+            },
+            {
+              "internalType": "string",
+              "name": "playerName",
+              "type": "string"
+            }
+          ],
+          "internalType": "struct BrandCrusher.GameScore[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        }
+      ],
+      "name": "getPlayerStats",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "totalGames",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "highScore",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalScore",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "civicVerified",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct BrandCrusher.PlayerStats",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "limit",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTopScores",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "player",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "score",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "civicVerified",
+              "type": "bool"
+            },
+            {
+              "internalType": "string",
+              "name": "playerName",
+              "type": "string"
+            }
+          ],
+          "internalType": "struct BrandCrusher.GameScore[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getTotalGames",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "playerGames",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "score",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "civicVerified",
+          "type": "bool"
+        },
+        {
+          "internalType": "string",
+          "name": "playerName",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "playerStats",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "totalGames",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "highScore",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalScore",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "civicVerified",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_score",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "_civicVerified",
+          "type": "bool"
+        },
+        {
+          "internalType": "string",
+          "name": "_playerName",
+          "type": "string"
+        }
+      ],
+      "name": "submitScore",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "finalScore",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bool",
+          "name": "verified",
+          "type": "bool"
+        }
+      ],
+      "name": "updateCivicVerification",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x1a833320dd5f34f2adb85f85dbe097a698b90d69d02fcf094d475a45aa8757cc",
+  "receipt": {
+    "to": null,
+    "from": "0x048222bEFE8A5CD34E139cC9221cb7AB6cF0Bdaf",
+    "contractAddress": "0x2d4988BeF13A77B2E5d8abaFFABd07a0b970B8B9",
+    "transactionIndex": 2,
+    "gasUsed": "971799",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x3b0a52964350a8d05f0feba6b4ebfac484c24f55f75310ac9a35138cafc90254",
+    "transactionHash": "0x1a833320dd5f34f2adb85f85dbe097a698b90d69d02fcf094d475a45aa8757cc",
+    "logs": [],
+    "blockNumber": 206012784,
+    "cumulativeGasUsed": "1035862",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "6b56c4bb16e7675f1eadee338dac9d0c",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"verified\",\"type\":\"bool\"}],\"name\":\"CivicVerificationUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"finalScore\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"civicVerified\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"}],\"name\":\"ScoreSubmitted\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"BASE_MULTIPLIER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"CIVIC_BONUS_MULTIPLIER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"allScores\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"civicVerified\",\"type\":\"bool\"},{\"internalType\":\"string\",\"name\":\"playerName\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"}],\"name\":\"getPlayerGames\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"civicVerified\",\"type\":\"bool\"},{\"internalType\":\"string\",\"name\":\"playerName\",\"type\":\"string\"}],\"internalType\":\"struct BrandCrusher.GameScore[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"}],\"name\":\"getPlayerStats\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"totalGames\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"highScore\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"totalScore\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"civicVerified\",\"type\":\"bool\"}],\"internalType\":\"struct BrandCrusher.PlayerStats\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"limit\",\"type\":\"uint256\"}],\"name\":\"getTopScores\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"civicVerified\",\"type\":\"bool\"},{\"internalType\":\"string\",\"name\":\"playerName\",\"type\":\"string\"}],\"internalType\":\"struct BrandCrusher.GameScore[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getTotalGames\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"playerGames\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"civicVerified\",\"type\":\"bool\"},{\"internalType\":\"string\",\"name\":\"playerName\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"playerStats\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"totalGames\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"highScore\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"totalScore\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"civicVerified\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_score\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"_civicVerified\",\"type\":\"bool\"},{\"internalType\":\"string\",\"name\":\"_playerName\",\"type\":\"string\"}],\"name\":\"submitScore\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"finalScore\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bool\",\"name\":\"verified\",\"type\":\"bool\"}],\"name\":\"updateCivicVerification\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/BrandCrusher.sol\":\"BrandCrusher\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/BrandCrusher.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.20;\\n\\ncontract BrandCrusher {\\n    struct GameScore {\\n        address player;\\n        uint256 score;\\n        uint256 timestamp;\\n        bool civicVerified;\\n        string playerName;\\n    }\\n    \\n    struct PlayerStats {\\n        uint256 totalGames;\\n        uint256 highScore;\\n        uint256 totalScore;\\n        bool civicVerified;\\n    }\\n    \\n    // State variables\\n    GameScore[] public allScores;\\n    mapping(address => PlayerStats) public playerStats;\\n    mapping(address => GameScore[]) public playerGames;\\n    \\n    uint256 public constant CIVIC_BONUS_MULTIPLIER = 150; // 1.5x = 150%\\n    uint256 public constant BASE_MULTIPLIER = 100;\\n    \\n    // Events\\n    event ScoreSubmitted(\\n        address indexed player,\\n        uint256 score,\\n        uint256 finalScore,\\n        bool civicVerified,\\n        uint256 timestamp\\n    );\\n    \\n    event CivicVerificationUpdated(address indexed player, bool verified);\\n    \\n    // Submit score after game\\n    function submitScore(\\n        uint256 _score,\\n        bool _civicVerified,\\n        string memory _playerName\\n    ) external returns (uint256 finalScore) {\\n        require(_score > 0, \\\"Score must be positive\\\");\\n        \\n        // Calculate final score with Civic bonus\\n        if (_civicVerified) {\\n            finalScore = (_score * CIVIC_BONUS_MULTIPLIER) / BASE_MULTIPLIER;\\n        } else {\\n            finalScore = _score;\\n        }\\n        \\n        // Create game record\\n        GameScore memory newGame = GameScore({\\n            player: msg.sender,\\n            score: finalScore,\\n            timestamp: block.timestamp,\\n            civicVerified: _civicVerified,\\n            playerName: _playerName\\n        });\\n        \\n        // Update storage\\n        allScores.push(newGame);\\n        playerGames[msg.sender].push(newGame);\\n        \\n        // Update player stats\\n        PlayerStats storage stats = playerStats[msg.sender];\\n        stats.totalGames++;\\n        stats.totalScore += finalScore;\\n        stats.civicVerified = _civicVerified;\\n        \\n        if (finalScore > stats.highScore) {\\n            stats.highScore = finalScore;\\n        }\\n        \\n        emit ScoreSubmitted(\\n            msg.sender,\\n            _score,\\n            finalScore,\\n            _civicVerified,\\n            block.timestamp\\n        );\\n        \\n        return finalScore;\\n    }\\n    \\n    // Get leaderboard (top N scores)\\n    function getTopScores(uint256 limit) external view returns (GameScore[] memory) {\\n        uint256 length = allScores.length;\\n        if (length == 0) {\\n            return new GameScore[](0);\\n        }\\n        \\n        uint256 resultSize = length < limit ? length : limit;\\n        GameScore[] memory topScores = new GameScore[](resultSize);\\n        \\n        // Simple sorting (for production use more efficient algorithm)\\n        for (uint256 i = 0; i < resultSize; i++) {\\n            uint256 maxIndex = 0;\\n            uint256 maxScore = 0;\\n            \\n            for (uint256 j = 0; j < length; j++) {\\n                bool alreadyAdded = false;\\n                for (uint256 k = 0; k < i; k++) {\\n                    if (allScores[j].player == topScores[k].player && \\n                        allScores[j].timestamp == topScores[k].timestamp) {\\n                        alreadyAdded = true;\\n                        break;\\n                    }\\n                }\\n                \\n                if (!alreadyAdded && allScores[j].score > maxScore) {\\n                    maxScore = allScores[j].score;\\n                    maxIndex = j;\\n                }\\n            }\\n            \\n            topScores[i] = allScores[maxIndex];\\n        }\\n        \\n        return topScores;\\n    }\\n    \\n    // Get player's game history\\n    function getPlayerGames(address player) external view returns (GameScore[] memory) {\\n        return playerGames[player];\\n    }\\n    \\n    // Get player stats\\n    function getPlayerStats(address player) external view returns (PlayerStats memory) {\\n        return playerStats[player];\\n    }\\n    \\n    // Get total games count\\n    function getTotalGames() external view returns (uint256) {\\n        return allScores.length;\\n    }\\n    \\n    // Update Civic verification status\\n    function updateCivicVerification(bool verified) external {\\n        playerStats[msg.sender].civicVerified = verified;\\n        emit CivicVerificationUpdated(msg.sender, verified);\\n    }\\n}\\n\\n\",\"keccak256\":\"0xa05df6310ddc3bdc33fb8ba6abb5e00b5be3a44974e00420dbb72c33e92daf6b\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061109d806100206000396000f3fe608060405234801561001057600080fd5b50600436106100a95760003560e01c80635bd4349b116100715780635bd4349b1461016c578063968ffe3414610174578063a03d2e7714610187578063a2b443931461019a578063cdafbbb6146101a2578063fdcbb95f146101fd57600080fd5b80630a5694c2146100ae578063129daf84146100db57806324629651146100fb5780633e4d94b81461011c5780634fd66eae14610124575b600080fd5b6100c16100bc366004610bf0565b610212565b6040516100d2959493929190610c60565b60405180910390f35b6100ee6100e9366004610ca0565b6102fc565b6040516100d29190610cc2565b61010e610109366004610d88565b61043d565b6040519081526020016100d2565b61010e609681565b610137610132366004610ca0565b610728565b6040516100d2919081518152602080830151908201526040808301519082015260609182015115159181019190915260800190565b60005461010e565b6100ee610182366004610e53565b6107a7565b6100c1610195366004610e53565b610aea565b61010e606481565b6101db6101b0366004610ca0565b6001602081905260009182526040909120805491810154600282015460039092015490919060ff1684565b60408051948552602085019390935291830152151560608201526080016100d2565b61021061020b366004610e6c565b610b42565b005b6002602052816000526040600020818154811061022e57600080fd5b6000918252602090912060059091020180546001820154600283015460038401546004850180546001600160a01b039095169750929550909360ff9091169290919061027990610e87565b80601f01602080910402602001604051908101604052809291908181526020018280546102a590610e87565b80156102f25780601f106102c7576101008083540402835291602001916102f2565b820191906000526020600020905b8154815290600101906020018083116102d557829003601f168201915b5050505050905085565b6001600160a01b0381166000908152600260209081526040808320805482518185028101850190935280835260609492939192909184015b828210156104325760008481526020908190206040805160a0810182526005860290920180546001600160a01b03168352600181015493830193909352600283015490820152600382015460ff16151560608201526004820180549192916080840191906103a190610e87565b80601f01602080910402602001604051908101604052809291908181526020018280546103cd90610e87565b801561041a5780601f106103ef5761010080835404028352916020019161041a565b820191906000526020600020905b8154815290600101906020018083116103fd57829003601f168201915b50505050508152505081526020019060010190610334565b505050509050919050565b600080841161048b5760405162461bcd60e51b815260206004820152601660248201527553636f7265206d75737420626520706f73697469766560501b604482015260640160405180910390fd5b82156104af57606461049e609686610ed7565b6104a89190610ef4565b90506104b2565b50825b6040805160a081018252338152602081018381524292820192835285151560608301908152608083018681526000805460018101825590805284517f290decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e563600590920291820180546001600160a01b0319166001600160a01b0390921691909117815593517f290decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e56482015594517f290decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e56586015590517f290decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e5668501805460ff191691151591909117905551919283927f290decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e567909101906105e79082610f65565b505033600090815260026020818152604080842080546001808201835591865294839020875160059096020180546001600160a01b0319166001600160a01b03909616959095178555918601519184019190915584015190820155606083015160038201805460ff1916911515919091179055608083015183925060048201906106719082610f65565b5050336000908152600160205260408120805490925090829061069383611025565b9190505550828160020160008282546106ac919061103e565b909155505060038101805460ff191686151517905560018101548311156106d557600181018390555b604080518781526020810185905286151581830152426060820152905133917fe33289ac93951f70a5fcdf69fc801aaa1307a0c2bac5edd1275fffcf6e615dd9919081900360800190a250509392505050565b61075560405180608001604052806000815260200160008152602001600081526020016000151581525090565b506001600160a01b0316600090815260016020818152604092839020835160808101855281548152928101549183019190915260028101549282019290925260039091015460ff161515606082015290565b600080546060918190036107ee5760408051600080825260208201909252906107e6565b6107d3610b9a565b8152602001906001900390816107cb5790505b509392505050565b60008382106107fd57836107ff565b815b905060008167ffffffffffffffff81111561081c5761081c610d72565b60405190808252806020026020018201604052801561085557816020015b610842610b9a565b81526020019060019003908161083a5790505b50905060005b82811015610ae15760008060005b868110156109b3576000805b8581101561093e5786818151811061088f5761088f611051565b6020026020010151600001516001600160a01b0316600084815481106108b7576108b7611051565b60009182526020909120600590910201546001600160a01b031614801561091e57508681815181106108eb576108eb611051565b6020026020010151604001516000848154811061090a5761090a611051565b906000526020600020906005020160020154145b1561092c576001915061093e565b8061093681611025565b915050610875565b50801580156109705750826000838154811061095c5761095c611051565b906000526020600020906005020160010154115b156109a0576000828154811061098857610988611051565b90600052602060002090600502016001015492508193505b50806109ab81611025565b915050610869565b50600082815481106109c7576109c7611051565b60009182526020918290206040805160a081018252600590930290910180546001600160a01b03168352600181015493830193909352600283015490820152600382015460ff1615156060820152600482018054919291608084019190610a2d90610e87565b80601f0160208091040260200160405190810160405280929190818152602001828054610a5990610e87565b8015610aa65780601f10610a7b57610100808354040283529160200191610aa6565b820191906000526020600020905b815481529060010190602001808311610a8957829003601f168201915b505050505081525050848481518110610ac157610ac1611051565b602002602001018190525050508080610ad990611025565b91505061085b565b50949350505050565b60008181548110610afa57600080fd5b6000918252602090912060059091020180546001820154600283015460038401546004850180546001600160a01b0390951696509294919360ff909116929061027990610e87565b33600081815260016020908152604091829020600301805460ff191685151590811790915591519182527fab8b59ebf730811031054120c42a8bde4822881593240eeef974a3766ea955c9910160405180910390a250565b6040518060a0016040528060006001600160a01b031681526020016000815260200160008152602001600015158152602001606081525090565b80356001600160a01b0381168114610beb57600080fd5b919050565b60008060408385031215610c0357600080fd5b610c0c83610bd4565b946020939093013593505050565b6000815180845260005b81811015610c4057602081850181015186830182015201610c24565b506000602082860101526020601f19601f83011685010191505092915050565b60018060a01b0386168152846020820152836040820152821515606082015260a060808201526000610c9560a0830184610c1a565b979650505050505050565b600060208284031215610cb257600080fd5b610cbb82610bd4565b9392505050565b60006020808301818452808551808352604092508286019150828160051b87010184880160005b83811015610d5457888303603f19018552815180516001600160a01b031684528781015188850152868101518785015260608082015115159085015260809081015160a091850182905290610d4081860183610c1a565b968901969450505090860190600101610ce9565b509098975050505050505050565b80358015158114610beb57600080fd5b634e487b7160e01b600052604160045260246000fd5b600080600060608486031215610d9d57600080fd5b83359250610dad60208501610d62565b9150604084013567ffffffffffffffff80821115610dca57600080fd5b818601915086601f830112610dde57600080fd5b813581811115610df057610df0610d72565b604051601f8201601f19908116603f01168101908382118183101715610e1857610e18610d72565b81604052828152896020848701011115610e3157600080fd5b8260208601602083013760006020848301015280955050505050509250925092565b600060208284031215610e6557600080fd5b5035919050565b600060208284031215610e7e57600080fd5b610cbb82610d62565b600181811c90821680610e9b57607f821691505b602082108103610ebb57634e487b7160e01b600052602260045260246000fd5b50919050565b634e487b7160e01b600052601160045260246000fd5b8082028115828204841417610eee57610eee610ec1565b92915050565b600082610f1157634e487b7160e01b600052601260045260246000fd5b500490565b601f821115610f6057600081815260208120601f850160051c81016020861015610f3d5750805b601f850160051c820191505b81811015610f5c57828155600101610f49565b5050505b505050565b815167ffffffffffffffff811115610f7f57610f7f610d72565b610f9381610f8d8454610e87565b84610f16565b602080601f831160018114610fc85760008415610fb05750858301515b600019600386901b1c1916600185901b178555610f5c565b600085815260208120601f198616915b82811015610ff757888601518255948401946001909101908401610fd8565b50858210156110155787850151600019600388901b60f8161c191681555b5050505050600190811b01905550565b60006001820161103757611037610ec1565b5060010190565b80820180821115610eee57610eee610ec1565b634e487b7160e01b600052603260045260246000fdfea2646970667358221220276b099904a302b3c5d845529af29b50f12567832133cb3e0e323a7460facc2264736f6c63430008140033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100a95760003560e01c80635bd4349b116100715780635bd4349b1461016c578063968ffe3414610174578063a03d2e7714610187578063a2b443931461019a578063cdafbbb6146101a2578063fdcbb95f146101fd57600080fd5b80630a5694c2146100ae578063129daf84146100db57806324629651146100fb5780633e4d94b81461011c5780634fd66eae14610124575b600080fd5b6100c16100bc366004610bf0565b610212565b6040516100d2959493929190610c60565b60405180910390f35b6100ee6100e9366004610ca0565b6102fc565b6040516100d29190610cc2565b61010e610109366004610d88565b61043d565b6040519081526020016100d2565b61010e609681565b610137610132366004610ca0565b610728565b6040516100d2919081518152602080830151908201526040808301519082015260609182015115159181019190915260800190565b60005461010e565b6100ee610182366004610e53565b6107a7565b6100c1610195366004610e53565b610aea565b61010e606481565b6101db6101b0366004610ca0565b6001602081905260009182526040909120805491810154600282015460039092015490919060ff1684565b60408051948552602085019390935291830152151560608201526080016100d2565b61021061020b366004610e6c565b610b42565b005b6002602052816000526040600020818154811061022e57600080fd5b6000918252602090912060059091020180546001820154600283015460038401546004850180546001600160a01b039095169750929550909360ff9091169290919061027990610e87565b80601f01602080910402602001604051908101604052809291908181526020018280546102a590610e87565b80156102f25780601f106102c7576101008083540402835291602001916102f2565b820191906000526020600020905b8154815290600101906020018083116102d557829003601f168201915b5050505050905085565b6001600160a01b0381166000908152600260209081526040808320805482518185028101850190935280835260609492939192909184015b828210156104325760008481526020908190206040805160a0810182526005860290920180546001600160a01b03168352600181015493830193909352600283015490820152600382015460ff16151560608201526004820180549192916080840191906103a190610e87565b80601f01602080910402602001604051908101604052809291908181526020018280546103cd90610e87565b801561041a5780601f106103ef5761010080835404028352916020019161041a565b820191906000526020600020905b8154815290600101906020018083116103fd57829003601f168201915b50505050508152505081526020019060010190610334565b505050509050919050565b600080841161048b5760405162461bcd60e51b815260206004820152601660248201527553636f7265206d75737420626520706f73697469766560501b604482015260640160405180910390fd5b82156104af57606461049e609686610ed7565b6104a89190610ef4565b90506104b2565b50825b6040805160a081018252338152602081018381524292820192835285151560608301908152608083018681526000805460018101825590805284517f290decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e563600590920291820180546001600160a01b0319166001600160a01b0390921691909117815593517f290decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e56482015594517f290decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e56586015590517f290decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e5668501805460ff191691151591909117905551919283927f290decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e567909101906105e79082610f65565b505033600090815260026020818152604080842080546001808201835591865294839020875160059096020180546001600160a01b0319166001600160a01b03909616959095178555918601519184019190915584015190820155606083015160038201805460ff1916911515919091179055608083015183925060048201906106719082610f65565b5050336000908152600160205260408120805490925090829061069383611025565b9190505550828160020160008282546106ac919061103e565b909155505060038101805460ff191686151517905560018101548311156106d557600181018390555b604080518781526020810185905286151581830152426060820152905133917fe33289ac93951f70a5fcdf69fc801aaa1307a0c2bac5edd1275fffcf6e615dd9919081900360800190a250509392505050565b61075560405180608001604052806000815260200160008152602001600081526020016000151581525090565b506001600160a01b0316600090815260016020818152604092839020835160808101855281548152928101549183019190915260028101549282019290925260039091015460ff161515606082015290565b600080546060918190036107ee5760408051600080825260208201909252906107e6565b6107d3610b9a565b8152602001906001900390816107cb5790505b509392505050565b60008382106107fd57836107ff565b815b905060008167ffffffffffffffff81111561081c5761081c610d72565b60405190808252806020026020018201604052801561085557816020015b610842610b9a565b81526020019060019003908161083a5790505b50905060005b82811015610ae15760008060005b868110156109b3576000805b8581101561093e5786818151811061088f5761088f611051565b6020026020010151600001516001600160a01b0316600084815481106108b7576108b7611051565b60009182526020909120600590910201546001600160a01b031614801561091e57508681815181106108eb576108eb611051565b6020026020010151604001516000848154811061090a5761090a611051565b906000526020600020906005020160020154145b1561092c576001915061093e565b8061093681611025565b915050610875565b50801580156109705750826000838154811061095c5761095c611051565b906000526020600020906005020160010154115b156109a0576000828154811061098857610988611051565b90600052602060002090600502016001015492508193505b50806109ab81611025565b915050610869565b50600082815481106109c7576109c7611051565b60009182526020918290206040805160a081018252600590930290910180546001600160a01b03168352600181015493830193909352600283015490820152600382015460ff1615156060820152600482018054919291608084019190610a2d90610e87565b80601f0160208091040260200160405190810160405280929190818152602001828054610a5990610e87565b8015610aa65780601f10610a7b57610100808354040283529160200191610aa6565b820191906000526020600020905b815481529060010190602001808311610a8957829003601f168201915b505050505081525050848481518110610ac157610ac1611051565b602002602001018190525050508080610ad990611025565b91505061085b565b50949350505050565b60008181548110610afa57600080fd5b6000918252602090912060059091020180546001820154600283015460038401546004850180546001600160a01b0390951696509294919360ff909116929061027990610e87565b33600081815260016020908152604091829020600301805460ff191685151590811790915591519182527fab8b59ebf730811031054120c42a8bde4822881593240eeef974a3766ea955c9910160405180910390a250565b6040518060a0016040528060006001600160a01b031681526020016000815260200160008152602001600015158152602001606081525090565b80356001600160a01b0381168114610beb57600080fd5b919050565b60008060408385031215610c0357600080fd5b610c0c83610bd4565b946020939093013593505050565b6000815180845260005b81811015610c4057602081850181015186830182015201610c24565b506000602082860101526020601f19601f83011685010191505092915050565b60018060a01b0386168152846020820152836040820152821515606082015260a060808201526000610c9560a0830184610c1a565b979650505050505050565b600060208284031215610cb257600080fd5b610cbb82610bd4565b9392505050565b60006020808301818452808551808352604092508286019150828160051b87010184880160005b83811015610d5457888303603f19018552815180516001600160a01b031684528781015188850152868101518785015260608082015115159085015260809081015160a091850182905290610d4081860183610c1a565b968901969450505090860190600101610ce9565b509098975050505050505050565b80358015158114610beb57600080fd5b634e487b7160e01b600052604160045260246000fd5b600080600060608486031215610d9d57600080fd5b83359250610dad60208501610d62565b9150604084013567ffffffffffffffff80821115610dca57600080fd5b818601915086601f830112610dde57600080fd5b813581811115610df057610df0610d72565b604051601f8201601f19908116603f01168101908382118183101715610e1857610e18610d72565b81604052828152896020848701011115610e3157600080fd5b8260208601602083013760006020848301015280955050505050509250925092565b600060208284031215610e6557600080fd5b5035919050565b600060208284031215610e7e57600080fd5b610cbb82610d62565b600181811c90821680610e9b57607f821691505b602082108103610ebb57634e487b7160e01b600052602260045260246000fd5b50919050565b634e487b7160e01b600052601160045260246000fd5b8082028115828204841417610eee57610eee610ec1565b92915050565b600082610f1157634e487b7160e01b600052601260045260246000fd5b500490565b601f821115610f6057600081815260208120601f850160051c81016020861015610f3d5750805b601f850160051c820191505b81811015610f5c57828155600101610f49565b5050505b505050565b815167ffffffffffffffff811115610f7f57610f7f610d72565b610f9381610f8d8454610e87565b84610f16565b602080601f831160018114610fc85760008415610fb05750858301515b600019600386901b1c1916600185901b178555610f5c565b600085815260208120601f198616915b82811015610ff757888601518255948401946001909101908401610fd8565b50858210156110155787850151600019600388901b60f8161c191681555b5050505050600190811b01905550565b60006001820161103757611037610ec1565b5060010190565b80820180821115610eee57610eee610ec1565b634e487b7160e01b600052603260045260246000fdfea2646970667358221220276b099904a302b3c5d845529af29b50f12567832133cb3e0e323a7460facc2264736f6c63430008140033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 25,
+        "contract": "contracts/BrandCrusher.sol:BrandCrusher",
+        "label": "allScores",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_array(t_struct(GameScore)12_storage)dyn_storage"
+      },
+      {
+        "astId": 30,
+        "contract": "contracts/BrandCrusher.sol:BrandCrusher",
+        "label": "playerStats",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_mapping(t_address,t_struct(PlayerStats)21_storage)"
+      },
+      {
+        "astId": 36,
+        "contract": "contracts/BrandCrusher.sol:BrandCrusher",
+        "label": "playerGames",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_mapping(t_address,t_array(t_struct(GameScore)12_storage)dyn_storage)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_struct(GameScore)12_storage)dyn_storage": {
+        "base": "t_struct(GameScore)12_storage",
+        "encoding": "dynamic_array",
+        "label": "struct BrandCrusher.GameScore[]",
+        "numberOfBytes": "32"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_mapping(t_address,t_array(t_struct(GameScore)12_storage)dyn_storage)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => struct BrandCrusher.GameScore[])",
+        "numberOfBytes": "32",
+        "value": "t_array(t_struct(GameScore)12_storage)dyn_storage"
+      },
+      "t_mapping(t_address,t_struct(PlayerStats)21_storage)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => struct BrandCrusher.PlayerStats)",
+        "numberOfBytes": "32",
+        "value": "t_struct(PlayerStats)21_storage"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_struct(GameScore)12_storage": {
+        "encoding": "inplace",
+        "label": "struct BrandCrusher.GameScore",
+        "members": [
+          {
+            "astId": 3,
+            "contract": "contracts/BrandCrusher.sol:BrandCrusher",
+            "label": "player",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address"
+          },
+          {
+            "astId": 5,
+            "contract": "contracts/BrandCrusher.sol:BrandCrusher",
+            "label": "score",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 7,
+            "contract": "contracts/BrandCrusher.sol:BrandCrusher",
+            "label": "timestamp",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 9,
+            "contract": "contracts/BrandCrusher.sol:BrandCrusher",
+            "label": "civicVerified",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_bool"
+          },
+          {
+            "astId": 11,
+            "contract": "contracts/BrandCrusher.sol:BrandCrusher",
+            "label": "playerName",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_string_storage"
+          }
+        ],
+        "numberOfBytes": "160"
+      },
+      "t_struct(PlayerStats)21_storage": {
+        "encoding": "inplace",
+        "label": "struct BrandCrusher.PlayerStats",
+        "members": [
+          {
+            "astId": 14,
+            "contract": "contracts/BrandCrusher.sol:BrandCrusher",
+            "label": "totalGames",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 16,
+            "contract": "contracts/BrandCrusher.sol:BrandCrusher",
+            "label": "highScore",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 18,
+            "contract": "contracts/BrandCrusher.sol:BrandCrusher",
+            "label": "totalScore",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 20,
+            "contract": "contracts/BrandCrusher.sol:BrandCrusher",
+            "label": "civicVerified",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_bool"
+          }
+        ],
+        "numberOfBytes": "128"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
