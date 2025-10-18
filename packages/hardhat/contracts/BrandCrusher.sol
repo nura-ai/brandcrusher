@@ -1,146 +1,230 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-contract BrandCrusher {
-    struct GameScore {
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract BrandCrusher is ReentrancyGuard, Ownable {
+    // Constants
+    uint256 public constant MIN_AD_PRICE = 0.0003 ether;  // ~$1
+    uint256 public constant MIN_PRIZE_POOL = 0.003 ether; // ~$10
+    uint256 public constant PRIZE_PERCENTAGE = 70;
+    uint256 public constant PLATFORM_FEE_PERCENTAGE = 30;
+    uint256 public constant ROUND_DURATION = 300; // 5 minutes
+
+    // Structures
+    struct Advertisement {
+        address advertiser;
+        uint256 amount;
+        string adContent;
+        string brandName;
+        uint256 timestamp;
+        bool isActive;
+    }
+
+    struct GameRound {
+        uint256 roundId;
+        uint256 startTime;
+        uint256 endTime;
+        uint256 totalAdPool;
+        uint256 prizePool;
+        uint256 platformFee;
+        address winner;
+        uint256 winningScore;
+        bool isActive;
+        uint256 playerCount;
+    }
+
+    struct PlayerScore {
         address player;
         uint256 score;
-        uint256 timestamp;
+        uint256 roundId;
         bool civicVerified;
         string playerName;
     }
-    
-    struct PlayerStats {
-        uint256 totalGames;
-        uint256 highScore;
-        uint256 totalScore;
-        bool civicVerified;
-    }
-    
+
     // State variables
-    GameScore[] public allScores;
-    mapping(address => PlayerStats) public playerStats;
-    mapping(address => GameScore[]) public playerGames;
-    
-    uint256 public constant CIVIC_BONUS_MULTIPLIER = 150; // 1.5x = 150%
-    uint256 public constant BASE_MULTIPLIER = 100;
-    
+    uint256 public currentRoundId;
+    mapping(uint256 => Advertisement[]) public roundAds;
+    mapping(uint256 => GameRound) public rounds;
+    mapping(address => uint256) public playerBalances;
+    mapping(uint256 => PlayerScore[]) public roundScores;
+    mapping(address => bool) public civicVerifiedPlayers;
+
     // Events
-    event ScoreSubmitted(
-        address indexed player,
-        uint256 score,
-        uint256 finalScore,
-        bool civicVerified,
-        uint256 timestamp
-    );
-    
+    event AdRegistered(address indexed advertiser, uint256 amount, uint256 roundId, string brandName);
+    event RoundStarted(uint256 indexed roundId, uint256 startTime);
+    event ScoreSubmitted(address indexed player, uint256 score, uint256 roundId, bool civicVerified);
+    event RoundEnded(uint256 indexed roundId, address winner, uint256 prize);
+    event PrizeClaimed(address indexed winner, uint256 amount);
+    event PlatformFeeCollected(uint256 amount);
     event CivicVerificationUpdated(address indexed player, bool verified);
-    
-    // Submit score after game
+
+    constructor() Ownable(msg.sender) {
+        // Start first round
+        _startNewRound();
+    }
+
+    function registerAdvertisement(
+        string memory _brandName,
+        string memory _adContent
+    ) external payable {
+        require(msg.value >= MIN_AD_PRICE, "Payment too low");
+        require(bytes(_brandName).length > 0, "Brand name required");
+
+        // Create advertisement
+        Advertisement memory newAd = Advertisement({
+            advertiser: msg.sender,
+            amount: msg.value,
+            adContent: _adContent,
+            brandName: _brandName,
+            timestamp: block.timestamp,
+            isActive: true
+        });
+
+        // Add to current round
+        roundAds[currentRoundId].push(newAd);
+
+        // Update round totals
+        GameRound storage currentRound = rounds[currentRoundId];
+        currentRound.totalAdPool += msg.value;
+        currentRound.prizePool = (currentRound.totalAdPool * PRIZE_PERCENTAGE) / 100;
+        currentRound.platformFee = (currentRound.totalAdPool * PLATFORM_FEE_PERCENTAGE) / 100;
+
+        emit AdRegistered(msg.sender, msg.value, currentRoundId, _brandName);
+    }
+
     function submitScore(
         uint256 _score,
         bool _civicVerified,
         string memory _playerName
-    ) external returns (uint256 finalScore) {
-        require(_score > 0, "Score must be positive");
-        
-        // Calculate final score with Civic bonus
-        if (_civicVerified) {
-            finalScore = (_score * CIVIC_BONUS_MULTIPLIER) / BASE_MULTIPLIER;
-        } else {
-            finalScore = _score;
-        }
-        
-        // Create game record
-        GameScore memory newGame = GameScore({
+    ) external {
+        require(_score > 0, "Score must be greater than 0");
+        require(rounds[currentRoundId].isActive, "No active round");
+
+        PlayerScore memory newScore = PlayerScore({
             player: msg.sender,
-            score: finalScore,
-            timestamp: block.timestamp,
+            score: _score,
+            roundId: currentRoundId,
             civicVerified: _civicVerified,
             playerName: _playerName
         });
-        
-        // Update storage
-        allScores.push(newGame);
-        playerGames[msg.sender].push(newGame);
-        
-        // Update player stats
-        PlayerStats storage stats = playerStats[msg.sender];
-        stats.totalGames++;
-        stats.totalScore += finalScore;
-        stats.civicVerified = _civicVerified;
-        
-        if (finalScore > stats.highScore) {
-            stats.highScore = finalScore;
-        }
-        
-        emit ScoreSubmitted(
-            msg.sender,
-            _score,
-            finalScore,
-            _civicVerified,
-            block.timestamp
-        );
-        
-        return finalScore;
+
+        roundScores[currentRoundId].push(newScore);
+        rounds[currentRoundId].playerCount++;
+
+        emit ScoreSubmitted(msg.sender, _score, currentRoundId, _civicVerified);
     }
-    
-    // Get leaderboard (top N scores)
-    function getTopScores(uint256 limit) external view returns (GameScore[] memory) {
-        uint256 length = allScores.length;
-        if (length == 0) {
-            return new GameScore[](0);
-        }
-        
-        uint256 resultSize = length < limit ? length : limit;
-        GameScore[] memory topScores = new GameScore[](resultSize);
-        
-        // Simple sorting (for production use more efficient algorithm)
-        for (uint256 i = 0; i < resultSize; i++) {
-            uint256 maxIndex = 0;
+
+    function endRound() external {
+        GameRound storage currentRound = rounds[currentRoundId];
+        require(currentRound.isActive, "No active round");
+        require(block.timestamp >= currentRound.endTime, "Round not finished");
+
+        // Find winner
+        PlayerScore[] memory scores = roundScores[currentRoundId];
+        if (scores.length > 0) {
             uint256 maxScore = 0;
+            address winner = address(0);
             
-            for (uint256 j = 0; j < length; j++) {
-                bool alreadyAdded = false;
-                for (uint256 k = 0; k < i; k++) {
-                    if (allScores[j].player == topScores[k].player && 
-                        allScores[j].timestamp == topScores[k].timestamp) {
-                        alreadyAdded = true;
-                        break;
-                    }
-                }
-                
-                if (!alreadyAdded && allScores[j].score > maxScore) {
-                    maxScore = allScores[j].score;
-                    maxIndex = j;
+            for (uint256 i = 0; i < scores.length; i++) {
+                if (scores[i].score > maxScore) {
+                    maxScore = scores[i].score;
+                    winner = scores[i].player;
                 }
             }
-            
-            topScores[i] = allScores[maxIndex];
+
+            if (winner != address(0) && currentRound.prizePool > 0) {
+                currentRound.winner = winner;
+                currentRound.winningScore = maxScore;
+                playerBalances[winner] += currentRound.prizePool;
+                
+                emit RoundEnded(currentRoundId, winner, currentRound.prizePool);
+            }
         }
-        
-        return topScores;
+
+        // Transfer platform fee to owner
+        if (currentRound.platformFee > 0) {
+            payable(owner()).transfer(currentRound.platformFee);
+            emit PlatformFeeCollected(currentRound.platformFee);
+        }
+
+        currentRound.isActive = false;
+        _startNewRound();
     }
-    
-    // Get player's game history
-    function getPlayerGames(address player) external view returns (GameScore[] memory) {
-        return playerGames[player];
+
+    function claimPrize() external nonReentrancy {
+        uint256 balance = playerBalances[msg.sender];
+        require(balance > 0, "No prize to claim");
+
+        playerBalances[msg.sender] = 0;
+        payable(msg.sender).transfer(balance);
+
+        emit PrizeClaimed(msg.sender, balance);
     }
-    
-    // Get player stats
-    function getPlayerStats(address player) external view returns (PlayerStats memory) {
-        return playerStats[player];
+
+    function _startNewRound() internal {
+        currentRoundId++;
+        rounds[currentRoundId] = GameRound({
+            roundId: currentRoundId,
+            startTime: block.timestamp,
+            endTime: block.timestamp + ROUND_DURATION,
+            totalAdPool: 0,
+            prizePool: 0,
+            platformFee: 0,
+            winner: address(0),
+            winningScore: 0,
+            isActive: true,
+            playerCount: 0
+        });
+
+        emit RoundStarted(currentRoundId, block.timestamp);
     }
-    
-    // Get total games count
-    function getTotalGames() external view returns (uint256) {
-        return allScores.length;
+
+    // View functions
+    function getCurrentPrizePool() external view returns (uint256) {
+        return rounds[currentRoundId].prizePool;
     }
-    
-    // Update Civic verification status
+
+    function getRoundDifficulty(uint256 _roundId) external view returns (string memory) {
+        uint256 totalPool = rounds[_roundId].totalAdPool;
+        if (totalPool < MIN_PRIZE_POOL) return "Easy";
+        if (totalPool < 0.01 ether) return "Medium";
+        if (totalPool < 0.1 ether) return "Hard";
+        return "EXTREME";
+    }
+
+    function getActivePlayersCount() external view returns (uint256) {
+        return rounds[currentRoundId].playerCount;
+    }
+
+    function getRoundAds(uint256 _roundId) external view returns (Advertisement[] memory) {
+        return roundAds[_roundId];
+    }
+
+    function getRoundScores(uint256 _roundId) external view returns (PlayerScore[] memory) {
+        return roundScores[_roundId];
+    }
+
+    function getCurrentRound() external view returns (GameRound memory) {
+        return rounds[currentRoundId];
+    }
+
     function updateCivicVerification(bool verified) external {
-        playerStats[msg.sender].civicVerified = verified;
+        civicVerifiedPlayers[msg.sender] = verified;
         emit CivicVerificationUpdated(msg.sender, verified);
     }
-}
 
+    function getPlayerBalance(address player) external view returns (uint256) {
+        return playerBalances[player];
+    }
+
+    // Emergency functions
+    function emergencyPause() external onlyOwner {
+        rounds[currentRoundId].isActive = false;
+    }
+
+    function withdrawEmergency() external onlyOwner {
+        payable(owner()).transfer(address(this).balance);
+    }
+}
