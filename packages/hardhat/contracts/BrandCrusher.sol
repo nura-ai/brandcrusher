@@ -1,10 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-
-contract BrandCrusher is ReentrancyGuard, Ownable {
+contract BrandCrusher {
     // Constants
     uint256 public constant MIN_AD_PRICE = 0.0003 ether;  // ~$1
     uint256 public constant MIN_PRIZE_POOL = 0.003 ether; // ~$10
@@ -60,7 +57,10 @@ contract BrandCrusher is ReentrancyGuard, Ownable {
     event PlatformFeeCollected(uint256 amount);
     event CivicVerificationUpdated(address indexed player, bool verified);
 
-    constructor() Ownable(msg.sender) {
+    address public owner;
+
+    constructor() {
+        owner = msg.sender;
         // Start first round
         _startNewRound();
     }
@@ -145,7 +145,7 @@ contract BrandCrusher is ReentrancyGuard, Ownable {
 
         // Transfer platform fee to owner
         if (currentRound.platformFee > 0) {
-            payable(owner()).transfer(currentRound.platformFee);
+            payable(owner).transfer(currentRound.platformFee);
             emit PlatformFeeCollected(currentRound.platformFee);
         }
 
@@ -153,7 +153,7 @@ contract BrandCrusher is ReentrancyGuard, Ownable {
         _startNewRound();
     }
 
-    function claimPrize() external nonReentrancy {
+    function claimPrize() external {
         uint256 balance = playerBalances[msg.sender];
         require(balance > 0, "No prize to claim");
 
@@ -220,11 +220,13 @@ contract BrandCrusher is ReentrancyGuard, Ownable {
     }
 
     // Emergency functions
-    function emergencyPause() external onlyOwner {
+    function emergencyPause() external {
+        require(msg.sender == owner, "Only owner");
         rounds[currentRoundId].isActive = false;
     }
 
-    function withdrawEmergency() external onlyOwner {
-        payable(owner()).transfer(address(this).balance);
+    function withdrawEmergency() external {
+        require(msg.sender == owner, "Only owner");
+        payable(owner).transfer(address(this).balance);
     }
 }

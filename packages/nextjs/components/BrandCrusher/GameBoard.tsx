@@ -261,33 +261,12 @@ export const GameBoard = () => {
     contractName: "BrandCrusher",
   });
 
-  // Read contract data
-  const { data: currentPrizePool } = useScaffoldReadContract({
-    contractName: "BrandCrusher",
-    functionName: "getCurrentPrizePool",
-  });
-
-  const { data: currentRound } = useScaffoldReadContract({
-    contractName: "BrandCrusher",
-    functionName: "getCurrentRound",
-  });
-
-  const { data: activePlayersCount } = useScaffoldReadContract({
-    contractName: "BrandCrusher",
-    functionName: "getActivePlayersCount",
-  });
-
-  const { data: roundAds } = useScaffoldReadContract({
-    contractName: "BrandCrusher",
-    functionName: "getRoundAds",
-    args: currentRound ? [BigInt(currentRound.roundId)] : undefined,
-  });
-
-  const { data: playerBalance } = useScaffoldReadContract({
-    contractName: "BrandCrusher",
-    functionName: "getPlayerBalance",
-    args: address ? [address] : undefined,
-  });
+  // Read contract data (using mock data for demo)
+  const currentPrizePool = 0n; // Mock data
+  const currentRound = null; // Mock data
+  const activePlayersCount = 0n; // Mock data
+  const roundAds = []; // Mock data
+  const playerBalance = 0n; // Mock data
 
   // Calculate game state
   const prizePoolEth = currentPrizePool ? Number(formatEther(currentPrizePool)) : 0;
@@ -353,12 +332,8 @@ export const GameBoard = () => {
   // Handle ad registration
   const handleAdRegistration = async (brandName: string, adContent: string, amount: bigint) => {
     try {
-      await registerAd({
-        functionName: "registerAdvertisement",
-        args: [brandName, adContent],
-        value: amount,
-      });
-      alert("Advertisement registered successfully!");
+      // For now, just simulate the registration
+      alert(`Advertisement "${brandName}" registered successfully!\nPayment: ${formatEther(amount)} ETH\n\nNote: This is a demo version. Real payments will be implemented when the new contract is deployed.`);
     } catch (error) {
       console.error("Error registering ad:", error);
       alert("Failed to register advertisement");
@@ -368,10 +343,8 @@ export const GameBoard = () => {
   // Handle prize claiming
   const handleClaimPrize = async () => {
     try {
-      await claimPrize({
-        functionName: "claimPrize",
-      });
-      alert("Prize claimed successfully!");
+      // For now, just simulate the claim
+      alert("Prize claimed successfully!\n\nNote: This is a demo version. Real prize claiming will be implemented when the new contract is deployed.");
     } catch (error) {
       console.error("Error claiming prize:", error);
       alert("Failed to claim prize");
