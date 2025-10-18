@@ -120,13 +120,9 @@ const AdRegistrationModal = ({ isOpen, onClose, onRegister, currentPrizePool, ac
       <div 
         className="bg-slate-900 rounded-2xl border border-white/20 p-4 sm:p-6 w-full max-w-md shadow-2xl"
         style={{
-          transform: window.innerWidth < 640 ? 'none' : `translate(${modalPosition.x}px, ${modalPosition.y}px)`,
-          position: window.innerWidth < 640 ? 'relative' : 'absolute',
-          top: window.innerWidth < 640 ? 'auto' : '50%',
-          left: window.innerWidth < 640 ? 'auto' : '50%',
-          marginTop: window.innerWidth < 640 ? 'auto' : '-50%',
-          marginLeft: window.innerWidth < 640 ? 'auto' : '-200px',
-          maxHeight: window.innerWidth < 640 ? '90vh' : 'auto'
+          transform: window.innerWidth >= 640 ? `translate(${modalPosition.x}px, ${modalPosition.y}px)` : 'none',
+          maxHeight: '85vh',
+          overflowY: 'auto'
         }}
       >
         {/* Draggable Header */}
