@@ -41,42 +41,19 @@ export const useCivicAuth = () => {
       // Real Civic integration would use their SDK
       // For now, we'll simulate the process with a more realistic flow
       
-      // Step 1: Open Civic verification modal
-      const verificationWindow = window.open(
-        'https://civic.com/verify',
-        'civic-verify',
-        'width=500,height=600,scrollbars=yes,resizable=yes'
-      );
-
-      // Step 2: Listen for verification completion
-      const checkVerification = () => {
-        return new Promise((resolve, reject) => {
-          const timeout = setTimeout(() => {
-            reject(new Error('Verification timeout'));
-          }, 30000); // 30 second timeout
-
-          const messageHandler = (event: MessageEvent) => {
-            if (event.origin !== 'https://civic.com') return;
-            
-            if (event.data.type === 'CIVIC_VERIFICATION_SUCCESS') {
-              clearTimeout(timeout);
-              window.removeEventListener('message', messageHandler);
-              verificationWindow?.close();
-              resolve(event.data);
-            } else if (event.data.type === 'CIVIC_VERIFICATION_ERROR') {
-              clearTimeout(timeout);
-              window.removeEventListener('message', messageHandler);
-              verificationWindow?.close();
-              reject(new Error(event.data.error));
-            }
-          };
-
-          window.addEventListener('message', messageHandler);
-        });
-      };
-
       // For demo purposes, simulate the verification process
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      // In a real implementation, this would use Civic SDK
+      console.log("Starting Civic verification process...");
+      
+      // Simulate verification steps
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log("Step 1: Opening Civic verification modal...");
+      
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log("Step 2: User completing KYC verification...");
+      
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log("Step 3: Verifying identity documents...");
       
       // Generate a mock verification ID
       const verificationId = `civic_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
