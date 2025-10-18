@@ -69,8 +69,6 @@ const AdRegistrationModal = ({ isOpen, onClose, onRegister, currentPrizePool, ac
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
 
-  if (!isOpen) return null;
-
   const minPayment = 0.0003; // ~$1
   const paymentInEth = parseFloat(paymentAmount);
   const speedMultiplier = 1 + (paymentInEth / minPayment);
@@ -114,6 +112,8 @@ const AdRegistrationModal = ({ isOpen, onClose, onRegister, currentPrizePool, ac
       };
     }
   }, [isDragging, dragOffset]);
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-2 sm:p-4 overflow-auto">
