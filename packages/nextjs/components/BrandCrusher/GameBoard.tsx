@@ -633,8 +633,31 @@ export const GameBoard = () => {
                   boxShadow: `0 0 20px ${brand.brandData.color}80`,
                 }}
               >
-                <div className="w-full h-full flex items-center justify-center text-white font-bold text-xs">
-                  {brand.brandData.name}
+                <div className="w-full h-full flex flex-col items-center justify-center text-white font-bold text-xs p-1">
+                  {/* Brand Logo */}
+                  <div className="w-8 h-8 mb-1 flex items-center justify-center">
+                    <img 
+                      src={brand.brandData.logo} 
+                      alt={brand.brandData.name}
+                      className="w-full h-full object-contain rounded-full"
+                      onError={(e) => {
+                        // Fallback to brand name if image fails to load
+                        e.currentTarget.style.display = 'none';
+                        e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                      }}
+                    />
+                    <div className="hidden w-full h-full bg-white/20 rounded-full flex items-center justify-center text-xs font-bold">
+                      {brand.brandData.name.charAt(0)}
+                    </div>
+                  </div>
+                  {/* Brand Name */}
+                  <div className="text-center text-xs font-bold leading-tight">
+                    {brand.brandData.name}
+                  </div>
+                  {/* Points */}
+                  <div className="text-xs opacity-80">
+                    {brand.brandData.points}pts
+                  </div>
                 </div>
               </button>
             ))
