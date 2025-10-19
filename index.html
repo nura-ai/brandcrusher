@@ -13,25 +13,8 @@
     <meta property="fc:frame:button:1:action" content="link">
     <meta property="fc:frame:button:1:target" content="https://nura-ai.github.io/brandcrusher">
     
-    <!-- Open Graph -->
-    <meta property="og:title" content="Brand Crusher - Web3 Mini-Game">
-    <meta property="og:description" content="Crush brand logos and earn real ETH rewards!">
-    <meta property="og:image" content="https://nura-ai.github.io/brandcrusher/thumbnail.jpg">
-    <meta property="og:url" content="https://nura-ai.github.io/brandcrusher">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Brand Crusher - Web3 Mini-Game">
-    <meta name="twitter:description" content="Crush brand logos and earn real ETH rewards!">
-    <meta name="twitter:image" content="https://nura-ai.github.io/brandcrusher/thumbnail.jpg">
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -40,16 +23,12 @@
             align-items: center;
             justify-content: center;
             color: white;
-            overflow-x: hidden;
         }
-        
         .container {
             text-align: center;
             max-width: 600px;
             padding: 2rem;
-            position: relative;
         }
-        
         .logo {
             width: 120px;
             height: 120px;
@@ -63,15 +42,7 @@
             font-weight: bold;
             color: #667eea;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            animation: pulse 2s infinite;
         }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
         h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
@@ -79,54 +50,36 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: glow 2s ease-in-out infinite alternate;
         }
-        
-        @keyframes glow {
-            from { text-shadow: 0 0 20px rgba(255,255,255,0.5); }
-            to { text-shadow: 0 0 30px rgba(255,255,255,0.8); }
-        }
-        
         .subtitle {
             font-size: 1.2rem;
             margin-bottom: 2rem;
             opacity: 0.9;
         }
-        
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
             margin: 2rem 0;
         }
-        
         .feature {
             background: rgba(255,255,255,0.1);
             padding: 1.5rem;
             border-radius: 15px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.2);
-            transition: transform 0.3s ease;
         }
-        
-        .feature:hover {
-            transform: translateY(-5px);
-        }
-        
         .feature h3 {
             font-size: 1.2rem;
             margin-bottom: 0.5rem;
         }
-        
         .feature p {
             opacity: 0.8;
             font-size: 0.9rem;
         }
-        
         .cta {
             margin-top: 2rem;
         }
-        
         .btn {
             display: inline-block;
             padding: 1rem 2rem;
@@ -140,11 +93,9 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             margin: 0.5rem;
         }
-        
         .btn:hover {
             transform: translateY(-2px);
         }
-        
         .sponsors {
             margin-top: 3rem;
             padding: 2rem;
@@ -152,19 +103,16 @@
             border-radius: 20px;
             backdrop-filter: blur(10px);
         }
-        
         .sponsors h3 {
             margin-bottom: 1rem;
             font-size: 1.3rem;
         }
-        
         .sponsor-logos {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
             gap: 1rem;
             margin-top: 1rem;
         }
-        
         .sponsor-logo {
             width: 60px;
             height: 60px;
@@ -177,71 +125,14 @@
             color: #667eea;
             font-size: 0.8rem;
             margin: 0 auto;
-            transition: transform 0.3s ease;
         }
-        
-        .sponsor-logo:hover {
-            transform: scale(1.1);
-        }
-        
-        .floating-balls {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        .ball {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-        
-        .ball:nth-child(1) { left: 10%; animation-delay: 0s; }
-        .ball:nth-child(2) { left: 20%; animation-delay: 1s; }
-        .ball:nth-child(3) { left: 30%; animation-delay: 2s; }
-        .ball:nth-child(4) { left: 40%; animation-delay: 3s; }
-        .ball:nth-child(5) { left: 50%; animation-delay: 4s; }
-        .ball:nth-child(6) { left: 60%; animation-delay: 5s; }
-        .ball:nth-child(7) { left: 70%; animation-delay: 0.5s; }
-        .ball:nth-child(8) { left: 80%; animation-delay: 1.5s; }
-        .ball:nth-child(9) { left: 90%; animation-delay: 2.5s; }
-        
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .container {
-                padding: 1rem;
-            }
+            h1 { font-size: 2rem; }
+            .container { padding: 1rem; }
         }
     </style>
 </head>
 <body>
-    <div class="floating-balls">
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-    </div>
-    
     <div class="container">
         <div class="logo">🎮</div>
         <h1>Brand Crusher</h1>
@@ -298,28 +189,5 @@
             </div>
         </div>
     </div>
-    
-    <script>
-        // Add some interactivity
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add click effects to sponsor logos
-            const sponsorLogos = document.querySelectorAll('.sponsor-logo');
-            sponsorLogos.forEach(logo => {
-                logo.addEventListener('click', function() {
-                    this.style.transform = 'scale(1.2)';
-                    setTimeout(() => {
-                        this.style.transform = 'scale(1)';
-                    }, 200);
-                });
-            });
-            
-            // Add floating animation to balls
-            const balls = document.querySelectorAll('.ball');
-            balls.forEach((ball, index) => {
-                ball.style.top = Math.random() * 100 + '%';
-                ball.style.animationDelay = Math.random() * 6 + 's';
-            });
-        });
-    </script>
 </body>
 </html>
