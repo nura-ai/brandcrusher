@@ -17,24 +17,24 @@ import {
 } from "@heroicons/react/24/outline";
 import { parseEther, formatEther } from "viem";
 
-// Brand configuration with real brand data
+// Brand configuration with sponsor logos
 const BRANDS = [
-  { id: 1, name: "Nike", logo: "/logos/IMG_6942.JPG", color: "#FF6B35", points: 10 },
-  { id: 2, name: "Apple", logo: "/logos/IMG_6943.jpg", color: "#4ECDC4", points: 15 },
-  { id: 3, name: "Google", logo: "/logos/IMG_6944.jpg", color: "#FFE66D", points: 12 },
-  { id: 4, name: "Amazon", logo: "/logos/IMG_6945.JPG", color: "#FF6B9D", points: 18 },
-  { id: 5, name: "Tesla", logo: "/logos/IMG_6946.JPG", color: "#C7F0BD", points: 20 },
-  { id: 6, name: "Meta", logo: "/logos/IMG_6947.JPG", color: "#95E1D3", points: 14 },
-  { id: 7, name: "Netflix", logo: "/logos/IMG_6948.PNG", color: "#F38181", points: 16 },
-  { id: 8, name: "Spotify", logo: "/logos/IMG_6949.JPG", color: "#AA96DA", points: 13 },
-  { id: 9, name: "Twitter", logo: "/logos/IMG_6950.JPG", color: "#FCBAD3", points: 11 },
-  { id: 10, name: "Adobe", logo: "/logos/IMG_6951.JPG", color: "#A8D8EA", points: 17 },
-  { id: 11, name: "Intel", logo: "/logos/IMG_6952.PNG", color: "#FFCFDF", points: 15 },
-  { id: 12, name: "Samsung", logo: "/logos/IMG_6953.JPG", color: "#FEFDCA", points: 19 },
-  { id: 13, name: "Sony", logo: "/logos/IMG_6954.JPG", color: "#E0BBE4", points: 14 },
-  { id: 14, name: "Microsoft", logo: "/logos/IMG_6955.PNG", color: "#957DAD", points: 16 },
-  { id: 15, name: "Oracle", logo: "/logos/IMG_6956.JPG", color: "#D291BC", points: 13 },
-  { id: 16, name: "IBM", logo: "/logos/IMG_6957.JPG", color: "#FEC8D8", points: 12 },
+  { id: 1, name: "Sponsor 1", logo: "/logos/IMG_6942.JPG", color: "#FF6B35", points: 10 },
+  { id: 2, name: "Sponsor 2", logo: "/logos/IMG_6943.jpg", color: "#4ECDC4", points: 15 },
+  { id: 3, name: "Sponsor 3", logo: "/logos/IMG_6944.jpg", color: "#FFE66D", points: 12 },
+  { id: 4, name: "Sponsor 4", logo: "/logos/IMG_6945.JPG", color: "#FF6B9D", points: 18 },
+  { id: 5, name: "Sponsor 5", logo: "/logos/IMG_6946.JPG", color: "#C7F0BD", points: 20 },
+  { id: 6, name: "Sponsor 6", logo: "/logos/IMG_6947.JPG", color: "#95E1D3", points: 14 },
+  { id: 7, name: "Sponsor 7", logo: "/logos/IMG_6948.PNG", color: "#F38181", points: 16 },
+  { id: 8, name: "Sponsor 8", logo: "/logos/IMG_6949.JPG", color: "#AA96DA", points: 13 },
+  { id: 9, name: "Sponsor 9", logo: "/logos/IMG_6950.JPG", color: "#FCBAD3", points: 11 },
+  { id: 10, name: "Sponsor 10", logo: "/logos/IMG_6951.JPG", color: "#A8D8EA", points: 17 },
+  { id: 11, name: "Sponsor 11", logo: "/logos/IMG_6952.PNG", color: "#FFCFDF", points: 15 },
+  { id: 12, name: "Sponsor 12", logo: "/logos/IMG_6953.JPG", color: "#FEFDCA", points: 19 },
+  { id: 13, name: "Sponsor 13", logo: "/logos/IMG_6954.JPG", color: "#E0BBE4", points: 14 },
+  { id: 14, name: "Sponsor 14", logo: "/logos/IMG_6955.PNG", color: "#957DAD", points: 16 },
+  { id: 15, name: "Sponsor 15", logo: "/logos/IMG_6956.JPG", color: "#D291BC", points: 13 },
+  { id: 16, name: "Sponsor 16", logo: "/logos/IMG_6957.JPG", color: "#FEC8D8", points: 12 },
 ];
 
 interface FloatingBrand {
@@ -633,30 +633,20 @@ export const GameBoard = () => {
                   boxShadow: `0 0 20px ${brand.brandData.color}80`,
                 }}
               >
-                <div className="w-full h-full flex flex-col items-center justify-center text-white font-bold text-xs p-1">
-                  {/* Brand Logo */}
-                  <div className="w-8 h-8 mb-1 flex items-center justify-center">
-                    <img 
-                      src={brand.brandData.logo} 
-                      alt={brand.brandData.name}
-                      className="w-full h-full object-contain rounded-full"
-                      onError={(e) => {
-                        // Fallback to brand name if image fails to load
-                        e.currentTarget.style.display = 'none';
-                        e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                      }}
-                    />
-                    <div className="hidden w-full h-full bg-white/20 rounded-full flex items-center justify-center text-xs font-bold">
-                      {brand.brandData.name.charAt(0)}
-                    </div>
-                  </div>
-                  {/* Brand Name */}
-                  <div className="text-center text-xs font-bold leading-tight">
-                    {brand.brandData.name}
-                  </div>
-                  {/* Points */}
-                  <div className="text-xs opacity-80">
-                    {brand.brandData.points}pts
+                <div className="w-full h-full flex items-center justify-center">
+                  {/* Brand Logo - Full Circle */}
+                  <img 
+                    src={brand.brandData.logo} 
+                    alt={brand.brandData.name}
+                    className="w-full h-full object-cover rounded-full"
+                    onError={(e) => {
+                      // Fallback to colored circle if image fails to load
+                      e.currentTarget.style.display = 'none';
+                      e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                    }}
+                  />
+                  <div className="hidden w-full h-full bg-white/20 rounded-full flex items-center justify-center text-xs font-bold text-white">
+                    {brand.brandData.name.charAt(0)}
                   </div>
                 </div>
               </button>
