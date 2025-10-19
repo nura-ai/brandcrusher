@@ -232,7 +232,7 @@ export default function GameBoard() {
         vy: (Math.random() - 0.5) * 2 * calculateDifficulty(),
         brand: brandName,
         logo: logoUrl,
-        adId: newAd.id.toString(),
+        adId: newAd.id,
         amount: amount,
       };
       setBalls((prev) => [...prev, newBall]);
