@@ -298,35 +298,114 @@ export default function GameBoard() {
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+        {/* Three Big Action Buttons */}
+        <div className="space-y-4 mb-6 max-w-3xl mx-auto">
+          {/* 1. Register Your Ad Button */}
           <button
             onClick={() => setIsModalOpen(true)}
-            className="px-6 py-4 bg-gradient-to-r from-pink-500 to-purple-500 rounded-xl hover:from-pink-600 hover:to-purple-600 transition-all font-bold text-lg shadow-lg"
+            className="w-full py-6 px-8 rounded-2xl
+              bg-gradient-to-r from-purple-600 to-indigo-600
+              border-2 border-cyan-400
+              hover:scale-105 hover:shadow-2xl hover:shadow-cyan-400/50
+              transition-all duration-300
+              text-white font-bold text-xl
+              flex items-center justify-center gap-3"
           >
-            📢 Register Your Ad
+            <span className="text-3xl">📢</span>
+            <div className="text-left">
+              <div>Register Your Ad</div>
+              <div className="text-sm text-cyan-300">Starting from $1 minimum</div>
+            </div>
           </button>
-          {!gameStarted && (
-            <button
-              onClick={startGame}
-              disabled={!isConnected || advertisements.length === 0}
-              className="px-6 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all font-bold text-lg disabled:opacity-50 shadow-lg"
-            >
-              {!isConnected
-                ? "Connect Wallet to Play"
-                : advertisements.length === 0
-                ? "No Ads Yet - Register First"
-                : "🎮 Start Game"}
-            </button>
-          )}
+
+          {/* 2. Play Demo Button */}
+          <button
+            onClick={() => {
+              setGameMode("demo");
+              startGame();
+            }}
+            disabled={advertisements.length === 0}
+            className="w-full py-6 px-8 rounded-2xl
+              bg-gray-600/20 backdrop-blur
+              border-2 border-gray-500/50
+              hover:bg-gray-600/40 hover:border-gray-400
+              disabled:opacity-50 disabled:cursor-not-allowed
+              transition-all duration-300
+              text-white font-bold text-xl
+              flex items-center justify-center gap-3"
+          >
+            <span className="text-3xl">🎮</span>
+            <div className="text-left">
+              <div>Play Demo (Free Practice)</div>
+              <div className="text-sm text-gray-400">No wallet required • No rewards</div>
+            </div>
+          </button>
+
+          {/* 3. Play for Real Prize Button (GOLD) */}
+          <button
+            onClick={() => {
+              if (!isConnected) {
+                alert("Please connect your wallet first!");
+                return;
+              }
+              if (prizePool < 10) {
+                alert(`Prize pool too low: $${prizePool.toFixed(2)} / $10.00 minimum`);
+                return;
+              }
+              setGameMode("real");
+              startGame();
+            }}
+            disabled={!isConnected || prizePool < 10 || advertisements.length === 0}
+            className="w-full py-6 px-8 rounded-2xl
+              bg-gradient-to-r from-yellow-400 via-yellow-500 to-orange-500
+              border-3 border-yellow-300
+              shadow-2xl shadow-yellow-500/50
+              hover:scale-105 hover:shadow-yellow-400/70
+              disabled:opacity-50 disabled:cursor-not-allowed
+              transition-all duration-300
+              text-black font-extrabold text-xl
+              flex items-center justify-center gap-3
+              relative overflow-hidden"
+          >
+            {/* Shine effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent
+              animate-shimmer" />
+            
+            <span className="text-3xl relative z-10">💰</span>
+            <div className="text-left relative z-10">
+              <div className="flex items-center gap-2">
+                <span>Play for Real Prize</span>
+                <span className="text-2xl">💎</span>
+              </div>
+              <div className="text-sm font-bold text-yellow-900">
+                {!isConnected 
+                  ? "⚠️ Connect Wallet First"
+                  : prizePool < 10
+                  ? `⚠️ Prize pool: $${prizePool.toFixed(2)} / $10.00 minimum`
+                  : `Win $${prizePool.toFixed(2)} • ✓ Wallet Connected`
+                }
+              </div>
+            </div>
+          </button>
         </div>
 
         {/* Game Board */}
         <div className="relative w-full h-[500px] bg-gradient-to-b from-purple-900/30 to-slate-900/30 backdrop-blur rounded-2xl border border-white/20 overflow-hidden">
+          {/* Game Mode Badge */}
+          {gameStarted && gameMode && (
+            <div className={`absolute top-4 left-4 px-4 py-2 rounded-full font-bold text-sm z-40 ${
+              gameMode === "demo" 
+                ? "bg-gray-500/80 text-white border-2 border-gray-400" 
+                : "bg-gradient-to-r from-yellow-400 to-orange-500 text-black border-2 border-yellow-300 animate-pulse"
+            }`}>
+              {gameMode === "demo" ? "🎮 DEMO MODE" : "💎 LIVE GAME"}
+            </div>
+          )}
+
           {balls.map((ball) => (
             <button
               key={ball.id}
-              onClick={() => crushBall(ball.id)}
+              onClick={(e) => crushBall(ball.id, e)}
               className="absolute w-20 h-20 flex items-center justify-center bg-white/20 backdrop-blur rounded-full border-2 border-white/40 hover:scale-110 transition-transform cursor-pointer overflow-hidden p-0"
               style={{
                 left: `${ball.x}%`,
@@ -341,6 +420,32 @@ export default function GameBoard() {
               />
             </button>
           ))}
+
+          {/* Gold Coin Explosions */}
+          {coinExplosions.map((explosion) => (
+            <GoldCoinExplosion
+              key={explosion.id}
+              x={explosion.x}
+              y={explosion.y}
+              onComplete={() => {
+                setCoinExplosions((prev) => prev.filter((e) => e.id !== explosion.id));
+              }}
+            />
+          ))}
+
+          {/* Combo Display */}
+          {combo > 1 && (
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+              text-6xl font-black text-yellow-400
+              animate-bounce
+              pointer-events-none z-50"
+              style={{
+                textShadow: "0 0 20px rgba(255,215,0,1), 0 0 40px rgba(255,215,0,0.8)",
+              }}
+            >
+              x{combo} COMBO!
+            </div>
+          )}
 
           {!gameStarted && (
             <div className="absolute inset-0 flex items-center justify-center">

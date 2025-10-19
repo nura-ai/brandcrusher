@@ -12,3 +12,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Shimmer animation for gold button */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 3s infinite;
+}
+
