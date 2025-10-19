@@ -1,268 +1,294 @@
-# Brand Crusher 🎮
+# 🎮 Brand Crusher
 
-Web3 game built with Scaffold-ETH, featuring Civic identity verification and deployed on Arbitrum Sepolia.
+**An innovative Web3 mini-game that combines advertising, gaming, and blockchain technology to create a unique economic model where brands pay for player engagement and players earn real rewards.**
 
-## 🎯 Project Overview
+[![Built with Scaffold-ETH 2](https://img.shields.io/badge/Built%20with-Scaffold--ETH%202-blue)](https://github.com/scaffold-eth/scaffold-eth-2)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Solidity](https://img.shields.io/badge/Solidity-363636?logo=solidity&logoColor=white)](https://soliditylang.org/)
 
-Brand Crusher is a Web3 game built on Scaffold-ETH 2, integrated with Arbitrum Sepolia, Civic Auth, and Buidl Guidl tools. Players crush floating brand logos to earn points, with Civic-verified players receiving a 1.5x multiplier bonus.
+## 🚀 **Live Demo**
 
-## ✨ Features
+- **Local Development**: http://localhost:3000
+- **GitHub Repository**: https://github.com/nura-ai/brandcrusher
+- **BuidlGuidl Application**: [View Presentation](./BUIDLGUIDL_PRESENTATION.md)
 
-- **16 Brand Logos**: Interactive floating brand logos with physics-based gameplay
-- **Civic Auth Integration**: Verified players earn 1.5x bonus points
-- **On-chain Leaderboard**: All scores stored on Arbitrum Sepolia
-- **Real-time Score Tracking**: Live score updates with combo multipliers
-- **Web3 Integration**: Full blockchain integration with smart contracts
+## 🎯 **Key Features**
 
-## 🛠 Tech Stack
+### ** Core Gameplay**
+- **Word Puzzle Game** - Players solve brand-related puzzles
+- **Real-time Scoring** - Dynamic difficulty based on ad payments
+- **Prize Pool System** - 70% to players, 30% to platform
+- **Free & Paid Modes** - Accessible to all players
 
-- **Framework**: Scaffold-ETH 2 (Next.js 13+)
-- **Blockchain**: Arbitrum Sepolia
-- **Auth**: Civic Auth (embedded wallets)
-- **AI**: Civic Nexus + Vercel AI SDK
-- **Smart Contracts**: Solidity + Hardhat
-- **Frontend**: React, TypeScript, Tailwind CSS
-- **Web3**: wagmi, viem, RainbowKit
+### **💰 Economic Model**
+- **Advertiser Payments** - Brands pay to increase game difficulty
+- **Player Rewards** - Real ETH prizes for top performers
+- **Platform Revenue** - Sustainable business model
+- **Dynamic Pricing** - Market-driven difficulty scaling
 
-## 🚀 Quick Start
+### **🔐 Identity Verification**
+- **Civic Auth Integration** - KYC verification for score multipliers
+- **Anti-Fraud Protection** - Prevents bot accounts
+- **Trust System** - Verified players get 1.5x score multiplier
+- **Privacy-First** - Minimal data collection
 
-### Prerequisites
+## 🛠 **Tech Stack**
 
-- Node.js 18+
+### **Frontend**
+- **Next.js 14** - React framework with App Router
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first CSS framework
+- **RainbowKit** - Wallet connection and management
+- **Wagmi** - React hooks for Ethereum
+
+### **Backend**
+- **Hardhat** - Ethereum development environment
+- **Solidity 0.8.19** - Smart contract language
+- **Scaffold-ETH 2** - Web3 development framework
+
+### **Blockchain**
+- **Ethereum** - Smart contract platform
+- **Local Development** - Hardhat network
+- **Testnet Ready** - Goerli, Sepolia support
+
+## 🚀 **Quick Start**
+
+### **Prerequisites**
+- Node.js 18+ 
+- npm or yarn
 - Git
-- Wallet with Arbitrum Sepolia ETH
 
-### Installation
+### **Installation**
 
 1. **Clone the repository**
-   ```bash
-   git clone https://github.com/scaffold-eth/scaffold-eth-2.git brand-crusher
-   cd brand-crusher
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install --legacy-peer-deps
-   ```
-
-3. **Configure environment variables**
-   
-   Create `packages/hardhat/.env`:
-   ```bash
-   DEPLOYER_PRIVATE_KEY=your_private_key_here
-   ARBISCAN_API_KEY=your_arbiscan_api_key
-   ALCHEMY_API_KEY=your_alchemy_api_key
-   ```
-   
-   Create `packages/nextjs/.env.local`:
-   ```bash
-   NEXT_PUBLIC_CIVIC_CLIENT_ID=your_civic_client_id
-   CIVIC_CLIENT_SECRET=your_civic_secret
-   OPENAI_API_KEY=your_openai_key_for_nexus
-   ```
-
-4. **Deploy smart contract**
-   ```bash
-   cd packages/hardhat
-   npm run deploy --network arbitrumSepolia
-   ```
-
-5. **Verify contract on Arbiscan**
-   ```bash
-   npm run verify --network arbitrumSepolia
-   ```
-
-6. **Start the frontend**
-   ```bash
-   cd packages/nextjs
-   npm run dev
-   ```
-
-7. **Deploy to Vercel**
-   ```bash
-   vercel --prod
-   ```
-
-## 🎮 How to Play
-
-1. **Connect Wallet**: Connect your Web3 wallet to Arbitrum Sepolia
-2. **Verify Identity**: Optional Civic verification for 1.5x bonus points
-3. **Start Game**: Click "Start Game" to begin the 60-second challenge
-4. **Crush Brands**: Click on floating brand logos to earn points
-5. **Build Combos**: Hit brands quickly to build combo multipliers
-6. **Submit Score**: Your score is automatically submitted to the blockchain
-
-## 🏆 Scoring System
-
-- **Base Points**: Each brand has different point values (10-20 points)
-- **Combo Bonus**: Consecutive hits within 2 seconds add bonus points
-- **Civic Multiplier**: Verified players earn 1.5x points
-- **Final Score**: `(Base Points + Combo Bonus) × Civic Multiplier`
-
-## 📊 Smart Contract Features
-
-### BrandCrusher.sol
-
-- **Score Submission**: Submit game scores with Civic verification status
-- **Leaderboard**: Get top N scores from all players
-- **Player Stats**: Track individual player statistics
-- **Civic Integration**: 1.5x multiplier for verified players
-- **Events**: Emit events for score submissions and verification updates
-
-### Key Functions
-
-```solidity
-function submitScore(uint256 _score, bool _civicVerified, string memory _playerName) external
-function getTopScores(uint256 limit) external view returns (GameScore[] memory)
-function getPlayerStats(address player) external view returns (PlayerStats memory)
-function updateCivicVerification(bool verified) external
+```bash
+git clone https://github.com/nura-ai/brandcrusher.git
+cd brandcrusher
 ```
 
-## 🔐 Civic Auth Integration
+2. **Install dependencies**
+```bash
+npm install
+```
 
-The game integrates with Civic Auth to provide identity verification:
+3. **Start local blockchain**
+```bash
+npm run chain
+```
 
-- **Embedded Wallets**: Seamless wallet creation and management
-- **Identity Verification**: KYC/AML compliance through Civic
-- **Bonus Rewards**: 1.5x point multiplier for verified players
-- **Privacy**: Decentralized identity without exposing personal data
+4. **Deploy contracts**
+```bash
+npm run deploy
+```
 
-## 🎨 Brand Logos
+5. **Start frontend**
+```bash
+npm run start
+```
 
-The game features 16 major brand logos:
+6. **Open in browser**
+```
+http://localhost:3000
+```
 
-- Nike, Apple, Google, Amazon
-- Tesla, Meta, Netflix, Spotify
-- Twitter, Adobe, Intel, Samsung
-- Sony, Microsoft, Oracle, IBM
+## 🎮 **How to Play**
 
-Each brand has unique colors, point values, and visual effects.
+### **For Players**
+1. **Connect Wallet** - Use RainbowKit to connect your wallet
+2. **Choose Mode** - Play free or for real prizes
+3. **Solve Puzzles** - Complete word puzzles to earn points
+4. **Submit Score** - Submit your score to the leaderboard
+5. **Claim Prizes** - Win ETH rewards for top performance
 
-## 📱 Game Components
+### **For Advertisers**
+1. **Register Ad** - Submit your brand content
+2. **Set Payment** - Choose how much to pay for engagement
+3. **Increase Difficulty** - Higher payments = harder puzzles
+4. **Track Engagement** - Monitor player interaction with your content
 
-### GameBoard.tsx
+### **For Verified Players**
+1. **Verify Identity** - Complete Civic KYC verification
+2. **Get Multiplier** - Earn 1.5x score multiplier
+3. **Enhanced Rewards** - Higher prize potential
+4. **Trust Benefits** - Build reputation in the community
 
-Main game component featuring:
-- Physics-based brand movement
-- Real-time score tracking
-- Combo system
-- Civic verification integration
-- Leaderboard display
-- Responsive design
+## 📊 **Game Mechanics**
 
-### useCivicAuth.ts
+### **Scoring System**
+- **Base Score** - Points earned from puzzle completion
+- **Time Bonus** - Faster completion = higher score
+- **Difficulty Multiplier** - Harder puzzles = more points
+- **Verification Bonus** - 1.5x multiplier for verified players
 
-Custom hook for Civic authentication:
-- Verification status management
-- Local storage persistence
-- Error handling
-- Integration with smart contracts
+### **Prize Distribution**
+- **70% to Players** - Distributed based on performance
+- **30% to Platform** - Sustainable business model
+- **Minimum Prize Pool** - 0.1 ETH to start rounds
+- **Dynamic Scaling** - Prize pool grows with ad payments
 
-## 🌐 Deployment
+### **Difficulty Scaling**
+- **Base Difficulty** - Standard puzzle difficulty
+- **Ad Payments** - Higher payments = harder puzzles
+- **Player Count** - More players = increased difficulty
+- **Time Pressure** - Limited time adds challenge
 
-### Smart Contract
+## 🔧 **Development**
 
-- **Network**: Arbitrum Sepolia
-- **Verification**: Arbiscan
-- **Gas Optimization**: Optimized for low-cost transactions
-
-### Frontend
-
-- **Platform**: Vercel
-- **Domain**: Custom domain support
-- **CDN**: Global content delivery
-- **SSL**: Automatic HTTPS
-
-## 🏅 Hackathon Submission
-
-### Arbitrum ($2,000)
-
-✅ **Deployed on Arbitrum Sepolia**
-- Smart contract deployed and verified
-- Full Web3 integration
-- Gas-efficient transactions
-
-### Civic
-
-✅ **Civic Auth Integration**
-- Embedded wallet support
-- Identity verification
-- 1.5x reward multiplier
-- Civic Nexus MCP integration
-
-### Buidl Guidl ($1,000)
-
-✅ **Scaffold-ETH 2 Implementation**
-- Complete project structure
-- Smart contract development
-- Frontend integration
-- Documentation and README
-
-## 🔧 Development
-
-### Project Structure
-
+### **Project Structure**
 ```
 brand-crusher/
 ├── packages/
-│   ├── hardhat/           # Smart contracts
-│   │   ├── contracts/     # Solidity contracts
-│   │   ├── deploy/        # Deployment scripts
-│   │   └── .env          # Environment variables
-│   └── nextjs/           # Frontend
-│       ├── app/          # Next.js app directory
-│       ├── components/   # React components
-│       ├── hooks/        # Custom hooks
-│       └── public/      # Static assets
-└── README.md
+│   ├── hardhat/                 # Smart contract development
+│   │   ├── contracts/
+│   │   │   └── BrandCrusher.sol # Main game contract
+│   │   ├── deploy/
+│   │   └── test/
+│   └── nextjs/                  # Frontend application
+│       ├── app/                 # Next.js App Router
+│       ├── components/         # React components
+│       ├── hooks/               # Custom React hooks
+│       └── contracts/           # Contract ABIs and addresses
+└── docs/                        # Documentation
 ```
 
-### Available Scripts
+### **Smart Contract Functions**
+```solidity
+// Core game functions
+function registerAdvertisement(string memory brandName, string memory content, uint256 payment) external payable
+function submitScore(uint256 score) external
+function claimPrize() external
+function getCurrentPrizePool() external view returns (uint256)
+function getRoundDifficulty() external view returns (uint256)
+function getActivePlayersCount() external view returns (uint256)
+```
 
+### **Frontend Components**
+- **GameBoard** - Main game interface
+- **AdRegistrationModal** - Advertiser registration
+- **StatsDashboard** - Live game statistics
+- **CivicAuth** - Identity verification
+
+## 📱 **Mobile Support**
+
+### **Responsive Design**
+- **Mobile-First** - Optimized for mobile devices
+- **Touch Controls** - Mobile-friendly interactions
+- **Performance** - Fast loading on mobile networks
+- **PWA Ready** - Progressive Web App features
+
+### **Farcaster Integration**
+- **Mini-App** - Designed for Farcaster platform
+- **Social Features** - Share scores and achievements
+- **Community** - Connect with other players
+- **Notifications** - Game updates and alerts
+
+## 🔐 **Security**
+
+### **Smart Contract Security**
+- **Input Validation** - All inputs are validated
+- **Access Control** - Proper permission management
+- **Reentrancy Protection** - Safe external calls
+- **Overflow Protection** - Safe math operations
+
+### **Frontend Security**
+- **Input Sanitization** - XSS prevention
+- **Wallet Security** - Secure wallet connections
+- **Data Validation** - Client-side validation
+- **Error Handling** - Graceful error management
+
+## 📈 **Analytics**
+
+### **User Metrics**
+- **Game Sessions** - Track user engagement
+- **Score Distribution** - Analyze player performance
+- **Ad Performance** - Measure brand engagement
+- **Error Tracking** - Monitor and fix issues
+
+### **Economic Metrics**
+- **Prize Pool Growth** - Track reward distribution
+- **Platform Revenue** - Monitor business health
+- **Brand Adoption** - Measure advertiser participation
+- **User Retention** - Track long-term engagement
+
+## 🚀 **Deployment**
+
+### **Local Development**
 ```bash
-# Smart Contract
-npm run compile          # Compile contracts
-npm run deploy          # Deploy to network
-npm run verify          # Verify on block explorer
-npm run test           # Run tests
+# Start local blockchain
+npm run chain
 
-# Frontend
-npm run dev            # Start development server
-npm run build          # Build for production
-npm run start          # Start production server
-npm run lint           # Run linter
+# Deploy contracts
+npm run deploy
+
+# Start frontend
+npm run start
 ```
 
-## 🤝 Contributing
+### **Production Deployment**
+- **Smart Contracts** - Deploy to Ethereum mainnet/testnet
+- **Frontend** - Deploy to Vercel/IPFS
+- **Domain** - Configure custom domain
+- **SSL** - HTTPS security
 
+## 🤝 **Contributing**
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+### **Development Setup**
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
 4. Add tests if applicable
 5. Submit a pull request
 
-## 📄 License
+### **Code Standards**
+- **TypeScript** - Use TypeScript for all new code
+- **ESLint** - Follow ESLint rules
+- **Prettier** - Use Prettier for code formatting
+- **Testing** - Add tests for new features
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+## 📄 **License**
 
-## 🙏 Acknowledgments
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-- **Scaffold-ETH 2**: Development framework
-- **Arbitrum**: Layer 2 scaling solution
-- **Civic**: Identity verification
-- **Buidl Guidl**: Web3 development community
+## 🙏 **Acknowledgments**
 
-## 📞 Support
+- **Scaffold-ETH 2** - Amazing Web3 development framework
+- **BuidlGuidl** - Web3 developer community and support
+- **Civic** - Identity verification technology
+- **Farcaster** - Social Web3 platform
+- **Ethereum Community** - For building the future of Web3
 
-For support and questions:
-- GitHub Issues: [Create an issue](https://github.com/your-repo/brand-crusher/issues)
-- Discord: Buidl Guidl community
-- Twitter: [@YourHandle](https://twitter.com/yourhandle)
+## 📞 **Support**
+
+- **GitHub Issues** - Report bugs and request features
+- **Discord** - Join our community
+- **Twitter** - Follow for updates
+- **Email** - Contact the team
+
+## 🎯 **Roadmap**
+
+### **Phase 1: MVP (Current)**
+- ✅ Core game mechanics
+- ✅ Smart contract implementation
+- ✅ Basic UI/UX
+- ✅ Civic Auth integration (demo)
+
+### **Phase 2: Enhancement**
+- 🔄 Advanced game features
+- 🔄 Mobile optimization
+- 🔄 Analytics dashboard
+- 🔄 Social features
+
+### **Phase 3: Scale**
+- 📋 Multi-chain support
+- 📋 NFT integration
+- 📋 Advanced AI difficulty
+- 📋 Community governance
 
 ---
 
-**Built with ❤️ for the Web3 community**
+**Ready to revolutionize Web3 gaming? Let's build the future together!** 🚀🎮✨
 
-🎮 **Play Now**: [Your Vercel URL]
-📜 **Contract**: [Arbiscan Link]
-🐙 **GitHub**: [Repository Link]
+**Built with ❤️ by the Brand Crusher team**
