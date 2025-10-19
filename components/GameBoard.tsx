@@ -222,7 +222,23 @@ export default function GameBoard() {
     setPrizePool((prev) => prev + amount * 0.7);
     setPlatformFee((prev) => prev + amount * 0.3);
 
-    alert(`Ad registered successfully! Bid: $${amount}`);
+    // If game is running, add new ball immediately
+    if (gameStarted) {
+      const newBall: Ball = {
+        id: Date.now(),
+        x: Math.random() * 80 + 10,
+        y: Math.random() * 80 + 10,
+        vx: (Math.random() - 0.5) * 2 * calculateDifficulty(),
+        vy: (Math.random() - 0.5) * 2 * calculateDifficulty(),
+        brand: brandName,
+        logo: logoUrl,
+        adId: newAd.id.toString(),
+        amount: amount,
+      };
+      setBalls((prev) => [...prev, newBall]);
+    }
+
+    alert(`Ad registered successfully! Bid: $${amount}\n${gameStarted ? 'Ball added to game!' : 'Will appear in next game!'}`);
   };
 
   // Load default ads on mount (demo)
