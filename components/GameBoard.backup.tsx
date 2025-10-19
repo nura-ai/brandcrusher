@@ -7,7 +7,6 @@ import { useCivicAuth } from "@/hooks/useCivicAuth";
 import AdRegistrationModal from "./AdRegistrationModal";
 import CivicVerificationModal from "./CivicVerificationModal";
 import Leaderboard from "./Leaderboard";
-import GoldCoinExplosion from "./GoldCoinExplosion";
 import { Advertisement, Ball, LeaderboardEntry } from "@/types";
 
 const DEFAULT_LOGOS = [
@@ -48,10 +47,6 @@ export default function GameBoard() {
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
   const [gameStartTime, setGameStartTime] = useState(0);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
-  const [coinExplosions, setCoinExplosions] = useState<Array<{ id: number; x: number; y: number }>>([]);
-  const [combo, setCombo] = useState(0);
-  const [lastHitTime, setLastHitTime] = useState(0);
-  const [gameMode, setGameMode] = useState<"demo" | "real" | null>(null);
 
   // Calculate difficulty based on total ad spend
   const calculateDifficulty = () => {
@@ -172,34 +167,10 @@ export default function GameBoard() {
     }
   };
 
-  const crushBall = (id: number, event: React.MouseEvent) => {
-    const ball = balls.find((b) => b.id === id);
-    if (!ball) return;
-
-    // Remove ball
-    setBalls((prevBalls) => prevBalls.filter((b) => b.id !== id));
-
-    // Add coin explosion at click position
-    const rect = event.currentTarget.getBoundingClientRect();
-    setCoinExplosions((prev) => [
-      ...prev,
-      { id: Date.now(), x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 },
-    ]);
-
-    // Update combo
-    const now = Date.now();
-    if (now - lastHitTime < 1000) {
-      setCombo((prev) => prev + 1);
-    } else {
-      setCombo(1);
-    }
-    setLastHitTime(now);
-
-    // Calculate points with combo multiplier
-    const basePoints = isVerified ? 20 : 10;
-    const comboMultiplier = Math.min(combo, 5); // Max 5x combo
-    const points = basePoints * (1 + comboMultiplier * 0.5);
-    setScore((prev) => prev + Math.floor(points));
+  const crushBall = (id: number) => {
+    setBalls((prevBalls) => prevBalls.filter((ball) => ball.id !== id));
+    const points = isVerified ? 20 : 10;
+    setScore((prev) => prev + points);
   };
 
   const handleAdSubmit = (brandName: string, logoFile: File, amount: number) => {
