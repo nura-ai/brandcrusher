@@ -16,14 +16,22 @@ interface Ball {
 }
 
 const BRANDS = [
-  { name: "Apple", logo: "🍎" },
-  { name: "Amazon", logo: "📦" },
-  { name: "Google", logo: "🔍" },
-  { name: "Meta", logo: "👤" },
-  { name: "Tesla", logo: "⚡" },
-  { name: "Nike", logo: "👟" },
-  { name: "Coca-Cola", logo: "🥤" },
-  { name: "McDonald's", logo: "🍔" },
+  { name: "Brand 1", logo: "/logos/IMG_6942.JPG" },
+  { name: "Brand 2", logo: "/logos/IMG_6943.jpg" },
+  { name: "Brand 3", logo: "/logos/IMG_6944.jpg" },
+  { name: "Brand 4", logo: "/logos/IMG_6945.JPG" },
+  { name: "Brand 5", logo: "/logos/IMG_6946.JPG" },
+  { name: "Brand 6", logo: "/logos/IMG_6947.JPG" },
+  { name: "Brand 7", logo: "/logos/IMG_6948.PNG" },
+  { name: "Brand 8", logo: "/logos/IMG_6949.JPG" },
+  { name: "Brand 9", logo: "/logos/IMG_6950.JPG" },
+  { name: "Brand 10", logo: "/logos/IMG_6951.JPG" },
+  { name: "Brand 11", logo: "/logos/IMG_6952.PNG" },
+  { name: "Brand 12", logo: "/logos/IMG_6953.JPG" },
+  { name: "Brand 13", logo: "/logos/IMG_6954.JPG" },
+  { name: "Brand 14", logo: "/logos/IMG_6955.PNG" },
+  { name: "Brand 15", logo: "/logos/IMG_6956.JPG" },
+  { name: "Brand 16", logo: "/logos/IMG_6957.JPG" },
 ];
 
 export default function GameBoard() {
@@ -56,7 +64,7 @@ export default function GameBoard() {
   }, [gameStarted]);
 
   const startGame = () => {
-    const newBalls: Ball[] = Array.from({ length: 8 }, (_, i) => ({
+    const newBalls: Ball[] = Array.from({ length: 16 }, (_, i) => ({
       id: i,
       x: Math.random() * 80 + 5,
       y: Math.random() * 80 + 5,
@@ -138,14 +146,18 @@ export default function GameBoard() {
             <button
               key={ball.id}
               onClick={() => crushBall(ball.id)}
-              className="absolute w-16 h-16 text-4xl flex items-center justify-center bg-white/20 backdrop-blur rounded-full border-2 border-white/40 hover:scale-110 transition-transform cursor-pointer"
+              className="absolute w-20 h-20 flex items-center justify-center bg-white/20 backdrop-blur rounded-full border-2 border-white/40 hover:scale-110 transition-transform cursor-pointer overflow-hidden p-0"
               style={{
                 left: `${ball.x}%`,
                 top: `${ball.y}%`,
                 transform: "translate(-50%, -50%)",
               }}
             >
-              {ball.logo}
+              <img
+                src={ball.logo}
+                alt={ball.brand}
+                className="w-full h-full object-cover rounded-full"
+              />
             </button>
           ))}
 
