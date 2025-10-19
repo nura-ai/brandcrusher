@@ -6,7 +6,8 @@ import { useAccount } from "wagmi";
 import { useCivicAuth } from "@/hooks/useCivicAuth";
 import AdRegistrationModal from "./AdRegistrationModal";
 import CivicVerificationModal from "./CivicVerificationModal";
-import { Advertisement, Ball } from "@/types";
+import Leaderboard from "./Leaderboard";
+import { Advertisement, Ball, LeaderboardEntry } from "@/types";
 
 const DEFAULT_LOGOS = [
   "/logos/IMG_6942.JPG",
@@ -28,6 +29,8 @@ const DEFAULT_LOGOS = [
 ];
 
 const MIN_BID = 1; // $1 minimum
+const MAX_SLOTS = 16; // Maximum 16 balls at once
+const GAME_DURATION = 60; // 60 seconds per round
 
 export default function GameBoard() {
   const { address, isConnected } = useAccount();
@@ -41,6 +44,9 @@ export default function GameBoard() {
   const [isCivicModalOpen, setIsCivicModalOpen] = useState(false);
   const [prizePool, setPrizePool] = useState(0);
   const [platformFee, setPlatformFee] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
+  const [gameStartTime, setGameStartTime] = useState(0);
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
 
   // Calculate difficulty based on total ad spend
   const calculateDifficulty = () => {
@@ -48,12 +54,29 @@ export default function GameBoard() {
     return Math.max(1, totalSpend / MIN_BID); // 1x base speed, increases with spend
   };
 
+  // Timer countdown
+  useEffect(() => {
+    if (!gameStarted) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          endGame();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [gameStarted]);
+
   // Animation loop
   useEffect(() => {
     if (!gameStarted) return;
 
     const difficulty = calculateDifficulty();
-    const baseSpeed = 0.5;
+    const baseSpeed = 0.8; // Increased base speed
     const speed = baseSpeed * Math.sqrt(difficulty); // Square root for smoother scaling
 
     const interval = setInterval(() => {
@@ -81,10 +104,10 @@ export default function GameBoard() {
       return;
     }
 
-    // Sort ads by amount (highest first) and take top 16
+    // Sort ads by amount (highest first) and take top MAX_SLOTS
     const sortedAds = [...advertisements]
       .sort((a, b) => b.amount - a.amount)
-      .slice(0, 16);
+      .slice(0, MAX_SLOTS);
 
     const newBalls: Ball[] = sortedAds.map((ad, i) => ({
       id: i,
@@ -101,6 +124,47 @@ export default function GameBoard() {
     setBalls(newBalls);
     setGameStarted(true);
     setScore(0);
+    setTimeLeft(GAME_DURATION);
+    setGameStartTime(Date.now());
+  };
+
+  const endGame = () => {
+    setGameStarted(false);
+    const timePlayed = Math.floor((Date.now() - gameStartTime) / 1000);
+    
+    // Update leaderboard
+    if (address) {
+      setLeaderboard((prev) => {
+        const existing = prev.find((e) => e.address === address);
+        if (existing) {
+          return prev
+            .map((e) =>
+              e.address === address
+                ? {
+                    ...e,
+                    totalScore: e.totalScore + score,
+                    totalTime: e.totalTime + timePlayed,
+                    gamesPlayed: e.gamesPlayed + 1,
+                    lastPlayed: Date.now(),
+                  }
+                : e
+            )
+            .sort((a, b) => b.totalTime - a.totalTime);
+        } else {
+          return [
+            ...prev,
+            {
+              address,
+              totalScore: score,
+              totalTime: timePlayed,
+              gamesPlayed: 1,
+              lastPlayed: Date.now(),
+              verified: isVerified,
+            },
+          ].sort((a, b) => b.totalTime - a.totalTime);
+        }
+      });
+    }
   };
 
   const crushBall = (id: number) => {
@@ -186,18 +250,24 @@ export default function GameBoard() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
           <div className="p-4 bg-white/10 backdrop-blur rounded-xl border border-white/20">
             <p className="text-xs text-gray-400">Prize Pool (70%)</p>
             <p className="text-xl font-bold text-green-400">${prizePool.toFixed(2)}</p>
           </div>
           <div className="p-4 bg-white/10 backdrop-blur rounded-xl border border-white/20">
             <p className="text-xs text-gray-400">Active Ads</p>
-            <p className="text-xl font-bold text-blue-400">{advertisements.length}</p>
+            <p className="text-xl font-bold text-blue-400">{advertisements.length}/{MAX_SLOTS}</p>
           </div>
           <div className="p-4 bg-white/10 backdrop-blur rounded-xl border border-white/20">
             <p className="text-xs text-gray-400">Your Score</p>
             <p className="text-xl font-bold text-yellow-400">{score}</p>
+          </div>
+          <div className="p-4 bg-white/10 backdrop-blur rounded-xl border border-white/20">
+            <p className="text-xs text-gray-400">Time Left</p>
+            <p className={`text-xl font-bold ${timeLeft <= 10 ? "text-red-400 animate-pulse" : "text-cyan-400"}`}>
+              {gameStarted ? `${timeLeft}s` : `${GAME_DURATION}s`}
+            </p>
           </div>
           <div className="p-4 bg-white/10 backdrop-blur rounded-xl border border-white/20">
             <p className="text-xs text-gray-400">Difficulty</p>
@@ -256,14 +326,23 @@ export default function GameBoard() {
             </div>
           )}
 
-          {gameStarted && balls.length === 0 && (
+          {gameStarted && (balls.length === 0 || timeLeft === 0) && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center">
-                <p className="text-6xl mb-4">🏆</p>
-                <h2 className="text-3xl font-bold mb-2">Round Complete!</h2>
-                <p className="text-2xl text-yellow-400 mb-4">Score: {score}</p>
+                <p className="text-6xl mb-4">
+                  {balls.length === 0 ? "🏆" : "⏰"}
+                </p>
+                <h2 className="text-3xl font-bold mb-2">
+                  {balls.length === 0 ? "Perfect Clear!" : "Time's Up!"}
+                </h2>
+                <p className="text-2xl text-yellow-400 mb-2">Final Score: {score}</p>
+                <p className="text-sm text-gray-400 mb-4">
+                  {balls.length === 0 
+                    ? "You crushed all brands!" 
+                    : `${balls.length} brands remaining`}
+                </p>
                 <p className="text-green-400 mb-6">
-                  You can claim ${(prizePool * (score / 1000)).toFixed(2)} from prize pool!
+                  Potential reward: ${(prizePool * (score / 1000)).toFixed(2)}
                 </p>
                 <button
                   onClick={startGame}
@@ -274,6 +353,11 @@ export default function GameBoard() {
               </div>
             </div>
           )}
+        </div>
+
+        {/* Leaderboard */}
+        <div className="mt-8">
+          <Leaderboard entries={leaderboard.slice(0, 10)} />
         </div>
 
         {/* Ad Registration Modal */}

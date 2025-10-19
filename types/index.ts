@@ -30,3 +30,11 @@ export interface Ball {
   amount: number;
 }
 
+export interface LeaderboardEntry {
+  address: string;
+  totalScore: number;
+  totalTime: number; // in seconds
+  gamesPlayed: number;
+  lastPlayed: number;
+  verified: boolean;
+}
