@@ -225,25 +225,19 @@ export default function GameBoard() {
             </h1>
             <p className="text-gray-400">Advertise, Play, Win!</p>
           </div>
-          <div className="flex gap-3 items-center flex-wrap">
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 rounded-xl hover:from-pink-600 hover:to-purple-600 transition-all font-semibold"
-            >
-              📢 Register Ad
-            </button>
-            {isConnected && (
+          <div className="flex gap-2 items-center flex-wrap justify-end">
+            {isConnected && !isVerified && (
               <button
-                onClick={() => isVerified ? null : setIsCivicModalOpen(true)}
-                disabled={isVerified}
-                className={`px-4 py-2 rounded-xl font-semibold transition-all ${
-                  isVerified
-                    ? "bg-green-500/20 text-green-400 border border-green-400 cursor-default"
-                    : "bg-purple-500 hover:bg-purple-600 text-white"
-                } disabled:opacity-50`}
+                onClick={() => setIsCivicModalOpen(true)}
+                className="px-4 py-2 bg-purple-500 hover:bg-purple-600 rounded-xl transition-all font-semibold text-white text-sm"
               >
-                {isVerified ? "✓ Verified (2x)" : "🔐 Verify ID"}
+                🔐 Verify ID
               </button>
+            )}
+            {isConnected && isVerified && (
+              <div className="px-4 py-2 bg-green-500/20 text-green-400 border border-green-400 rounded-xl font-semibold text-sm cursor-default">
+                ✓ Verified (2x)
+              </div>
             )}
             <ConnectButton />
           </div>
@@ -275,20 +269,28 @@ export default function GameBoard() {
           </div>
         </div>
 
-        {/* Game Controls */}
-        {!gameStarted && (
+        {/* Action Buttons */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
           <button
-            onClick={startGame}
-            disabled={!isConnected || advertisements.length === 0}
-            className="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all font-bold disabled:opacity-50 mb-6"
+            onClick={() => setIsModalOpen(true)}
+            className="px-6 py-4 bg-gradient-to-r from-pink-500 to-purple-500 rounded-xl hover:from-pink-600 hover:to-purple-600 transition-all font-bold text-lg shadow-lg"
           >
-            {!isConnected
-              ? "Connect Wallet to Play"
-              : advertisements.length === 0
-              ? "Register an Ad to Start"
-              : "Start Game"}
+            📢 Register Your Ad
           </button>
-        )}
+          {!gameStarted && (
+            <button
+              onClick={startGame}
+              disabled={!isConnected || advertisements.length === 0}
+              className="px-6 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all font-bold text-lg disabled:opacity-50 shadow-lg"
+            >
+              {!isConnected
+                ? "Connect Wallet to Play"
+                : advertisements.length === 0
+                ? "No Ads Yet - Register First"
+                : "🎮 Start Game"}
+            </button>
+          )}
+        </div>
 
         {/* Game Board */}
         <div className="relative w-full h-[500px] bg-gradient-to-b from-purple-900/30 to-slate-900/30 backdrop-blur rounded-2xl border border-white/20 overflow-hidden">
