@@ -324,12 +324,10 @@ export default function GameBoard() {
               setGameMode("demo");
               startGame();
             }}
-            disabled={advertisements.length === 0}
             className="w-full py-6 px-8 rounded-2xl
               bg-gray-600/20 backdrop-blur
               border-2 border-gray-500/50
               hover:bg-gray-600/40 hover:border-gray-400
-              disabled:opacity-50 disabled:cursor-not-allowed
               transition-all duration-300
               text-white font-bold text-xl
               flex items-center justify-center gap-3"
@@ -355,7 +353,7 @@ export default function GameBoard() {
               setGameMode("real");
               startGame();
             }}
-            disabled={!isConnected || prizePool < 10 || advertisements.length === 0}
+            disabled={!isConnected || prizePool < 10}
             className="w-full py-6 px-8 rounded-2xl
               bg-gradient-to-r from-yellow-400 via-yellow-500 to-orange-500
               border-3 border-yellow-300
