@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
+import { useCivicAuth } from "@/hooks/useCivicAuth";
 
 interface Ball {
   id: number;
@@ -27,6 +28,7 @@ const BRANDS = [
 
 export default function GameBoard() {
   const { address, isConnected } = useAccount();
+  const { isVerified, isVerifying, verify } = useCivicAuth();
   const [score, setScore] = useState(0);
   const [balls, setBalls] = useState<Ball[]>([]);
   const [gameStarted, setGameStarted] = useState(false);
@@ -70,7 +72,8 @@ export default function GameBoard() {
 
   const crushBall = (id: number) => {
     setBalls((prevBalls) => prevBalls.filter((ball) => ball.id !== id));
-    setScore((prev) => prev + 10);
+    const points = isVerified ? 20 : 10; // 2x multiplier for verified users
+    setScore((prev) => prev + points);
   };
 
   return (
@@ -84,11 +87,26 @@ export default function GameBoard() {
             </h1>
             <p className="text-gray-400">Crush brands, earn points!</p>
           </div>
-          <ConnectButton />
+          <div className="flex gap-3 items-center">
+            {isConnected && (
+              <button
+                onClick={verify}
+                disabled={isVerified || isVerifying}
+                className={`px-4 py-2 rounded-xl font-semibold transition-all ${
+                  isVerified
+                    ? "bg-green-500/20 text-green-400 border border-green-400"
+                    : "bg-purple-500 hover:bg-purple-600 text-white"
+                } disabled:opacity-50`}
+              >
+                {isVerifying ? "Verifying..." : isVerified ? "✓ Verified (2x)" : "🔐 Verify ID"}
+              </button>
+            )}
+            <ConnectButton />
+          </div>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="grid grid-cols-3 gap-4 mb-6">
           <div className="p-4 bg-white/10 backdrop-blur rounded-xl border border-white/20">
             <p className="text-sm text-gray-400">Score</p>
             <p className="text-2xl font-bold text-yellow-400">{score}</p>
@@ -96,6 +114,10 @@ export default function GameBoard() {
           <div className="p-4 bg-white/10 backdrop-blur rounded-xl border border-white/20">
             <p className="text-sm text-gray-400">Balls Left</p>
             <p className="text-2xl font-bold text-blue-400">{balls.length}</p>
+          </div>
+          <div className="p-4 bg-white/10 backdrop-blur rounded-xl border border-white/20">
+            <p className="text-sm text-gray-400">Multiplier</p>
+            <p className="text-2xl font-bold text-green-400">{isVerified ? "2x" : "1x"}</p>
           </div>
         </div>
 
