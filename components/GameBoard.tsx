@@ -5,6 +5,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import { useCivicAuth } from "@/hooks/useCivicAuth";
 import AdRegistrationModal from "./AdRegistrationModal";
+import CivicVerificationModal from "./CivicVerificationModal";
 import { Advertisement, Ball } from "@/types";
 
 const DEFAULT_LOGOS = [
@@ -37,6 +38,7 @@ export default function GameBoard() {
   const [gameStarted, setGameStarted] = useState(false);
   const [advertisements, setAdvertisements] = useState<Advertisement[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCivicModalOpen, setIsCivicModalOpen] = useState(false);
   const [prizePool, setPrizePool] = useState(0);
   const [platformFee, setPlatformFee] = useState(0);
 
@@ -168,15 +170,15 @@ export default function GameBoard() {
             </button>
             {isConnected && (
               <button
-                onClick={verify}
-                disabled={isVerified || isVerifying}
+                onClick={() => isVerified ? null : setIsCivicModalOpen(true)}
+                disabled={isVerified}
                 className={`px-4 py-2 rounded-xl font-semibold transition-all ${
                   isVerified
-                    ? "bg-green-500/20 text-green-400 border border-green-400"
+                    ? "bg-green-500/20 text-green-400 border border-green-400 cursor-default"
                     : "bg-purple-500 hover:bg-purple-600 text-white"
                 } disabled:opacity-50`}
               >
-                {isVerifying ? "Verifying..." : isVerified ? "✓ Verified (2x)" : "🔐 Verify ID"}
+                {isVerified ? "✓ Verified (2x)" : "🔐 Verify ID"}
               </button>
             )}
             <ConnectButton />
@@ -281,6 +283,17 @@ export default function GameBoard() {
           onSubmit={handleAdSubmit}
           currentCompetitors={advertisements.length}
           minBid={MIN_BID}
+        />
+
+        {/* Civic Verification Modal */}
+        <CivicVerificationModal
+          isOpen={isCivicModalOpen}
+          onClose={() => setIsCivicModalOpen(false)}
+          onVerify={() => {
+            verify();
+            setIsCivicModalOpen(false);
+          }}
+          isVerifying={isVerifying}
         />
       </div>
     </div>
